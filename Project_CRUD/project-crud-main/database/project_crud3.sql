@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2026 at 07:22 AM
+-- Generation Time: Aug 04, 2026 at 05:03 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.4.12
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,9 +33,20 @@ CREATE TABLE `blog_content` (
   `title` varchar(100) NOT NULL,
   `image` varchar(50) NOT NULL,
   `short_description` varchar(255) DEFAULT NULL,
+  `url_blog` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `blog_content`
+--
+
+INSERT INTO `blog_content` (`id`, `date`, `title`, `image`, `short_description`, `url_blog`, `created_at`, `updated_at`) VALUES
+(1, '2026-08-12', 'tets', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:49:22', NULL),
+(2, '2027-08-12', 'aasfsaf', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:50:19', NULL),
+(3, '2007-07-07', 'test3', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:52:00', NULL),
+(4, '2022-02-22', 'tets', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:57:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -56,6 +67,43 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `job_category`
+--
+
+CREATE TABLE `job_category` (
+  `id` int(11) NOT NULL,
+  `name_category` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `job_category`
+--
+
+INSERT INTO `job_category` (`id`, `name_category`) VALUES
+(1, 'Web Design'),
+(2, 'UI/UX Design'),
+(3, 'Branding & Identity'),
+(4, 'Graphic Design'),
+(5, 'Motion Graphics'),
+(6, '3D Modeling & Animation'),
+(7, 'Video Editing'),
+(8, 'Photography & Videography'),
+(9, 'Illustrator & Digital Art'),
+(10, 'Front-End Web Development'),
+(11, 'Back-End Web Development'),
+(12, 'Full-Stack Development'),
+(13, 'Mobile Apps Development'),
+(14, 'Game Development'),
+(15, 'Social Media Specialist'),
+(16, 'Digital Marketing & SEO'),
+(17, 'Copywriting & Content Writing'),
+(18, 'DevOps Engineering'),
+(19, 'Data Science & Analytics'),
+(20, 'Cyber Security');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `my_skills`
 --
 
@@ -68,6 +116,13 @@ CREATE TABLE `my_skills` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `my_skills`
+--
+
+INSERT INTO `my_skills` (`id`, `skills`, `percentage`, `is_active`, `created_at`, `updated_at`) VALUES
+(2, 'Digital Marketing', 100, 1, '2026-08-04 11:43:26', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -77,21 +132,11 @@ CREATE TABLE `my_skills` (
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `article_url` varchar(255) NOT NULL,
-  `thumbnail` varchar(255) NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `job_category` int(100) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `update_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `projects`
---
-
-INSERT INTO `projects` (`id`, `title`, `article_url`, `thumbnail`, `is_active`, `created_at`, `update_at`) VALUES
-(2, 'test2', 'https://github.com/sofiecoffeee?tab=repositories', '6a7152533657a_timon-wanner-9JQGR0NZFUg-unsplash (1).jpg', 1, '2026-08-04 02:45:39', NULL),
-(3, 'test 2', 'https://github.com/sofiecoffeee?tab=repositories', '6a71533f7dfe8_Kopi Aceh.jfif', 0, '2026-08-04 02:49:35', NULL),
-(9, 'test lagi', 'https://github.com/sofiecoffeee?tab=repositories', '6a71760cc723a_BukaPuasa.PNG', 0, '2026-08-04 05:18:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -136,6 +181,13 @@ CREATE TABLE `service` (
   `update_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `service`
+--
+
+INSERT INTO `service` (`id`, `service_name`, `icon`, `is_active`, `created_at`, `update_at`) VALUES
+(4, 'test', 'fa-pixel fa-regular fa-file', 1, '2026-08-04 11:43:00', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -159,7 +211,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `website_name`, `email`, `phone`, `address`, `description`, `ig`, `created_at`, `update_at`) VALUES
-(1, 'www.coba.baru', 'crayonshinchan@gmail.com', '081912189318', 'seluruh kota', 'merupakan teman bermain yang asyik', 'chocobi', '2026-07-30 03:07:43', '2026-07-30 03:43:38');
+(1, 'www.coba.baru', 'crayonshinchan@gmail.com', '081912189318', 'seluruh kota', 'merupakan teman bermain yang asyik', '@chocobi', '2026-07-30 03:07:43', '2026-08-04 11:14:11');
 
 -- --------------------------------------------------------
 
@@ -227,6 +279,12 @@ ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `job_category`
+--
+ALTER TABLE `job_category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `my_skills`
 --
 ALTER TABLE `my_skills`
@@ -236,7 +294,8 @@ ALTER TABLE `my_skills`
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`job_category`);
 
 --
 -- Indexes for table `resume`
@@ -277,7 +336,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blog_content`
 --
 ALTER TABLE `blog_content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -286,16 +345,22 @@ ALTER TABLE `contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `job_category`
+--
+ALTER TABLE `job_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT for table `my_skills`
 --
 ALTER TABLE `my_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `resume`
@@ -307,7 +372,7 @@ ALTER TABLE `resume`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -326,6 +391,16 @@ ALTER TABLE `sliders`
 --
 ALTER TABLE `users`
   MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `projects`
+--
+ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`job_category`) REFERENCES `job_category` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
