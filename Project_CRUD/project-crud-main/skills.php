@@ -5,14 +5,14 @@ session_regenerate_id();
 include "config/koneksi.php";
 // show all data from users table
 // from biggest to smallest
-$query = mysqli_query($conn, "SELECT * FROM service ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT * FROM my_skills ORDER BY id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 //jika parameter/params delete ada
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
-    $delete = mysqli_query($conn, "DELETE FROM service WHERE id='$delete'");
-    header("location:service.php?hapus=berhasil");
+    $delete = mysqli_query($conn, "DELETE FROM my_skills WHERE id='$delete'");
+    header("location:skills.php?hapus=berhasil");
 }
 
 // $name = $_SESSION['name'];
@@ -27,7 +27,7 @@ if (isset($_GET['delete'])) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Resume - Admin Sofia Han</title>
+    <title>Skills - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";
@@ -77,11 +77,11 @@ if (isset($_GET['delete'])) {
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
-                            <h3 class="fw-bold mb-3">Resumes</h3>
+                            <h3 class="fw-bold mb-3">My Skills</h3>
                         </div>
                         <div class="ms-md-auto py-2 py-md-0">
                             <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> -->
-                            <a href="create-service.php" class="btn btn-primary btn-round">Create New Service</a>
+                            <a href="create-skills.php" class="btn btn-primary btn-round">Add New Skills</a>
                         </div>
                     </div>
                     <div class="row">
@@ -92,8 +92,8 @@ if (isset($_GET['delete'])) {
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Service Name</th>
-                                                <th>Icon</th>
+                                                <th>Skills</th>
+                                                <th>Percentage</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -101,14 +101,14 @@ if (isset($_GET['delete'])) {
                                             <?php foreach ($rows as $index => $row): ?>
                                                 <tr>
                                                     <td><?php echo $index += 1 ?></td>
-                                                    <td><?php echo $row['service_name'] ?></td>
-                                                    <td><?php echo $row['icon'] ?></td>
+                                                    <td><?php echo $row['skills'] ?></td>
+                                                    <td><?php echo $row['percentage'] ?></td>
                                                     <td>
                                                         <a class="btn btn-success btn-sm"
                                                             href="create-resume.php?edit=<?php echo $row['id'] ?>">Edit</a>
                                                         <a onclick="return confirm('Are you sure wanna delete this data?')"
                                                             class=" btn btn-danger btn-sm"
-                                                            href="resume.php?delete=<?php echo $row['id'] ?>">Delete</a>
+                                                            href="skills.php?delete=<?php echo $row['id'] ?>">Delete</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach ?>
