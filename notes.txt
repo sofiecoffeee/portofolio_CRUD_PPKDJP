@@ -1,0 +1,24 @@
+FILTER
+
+<?=htmlspecialchar($v['name']) ---> biar ga ada yang iseng tulis tulis di kolom submit
+
+mysql_escape-string($conn, $_POST); ---> untuk menghindari serangan SQL injection 
+
+
+
+
+foreach ($_FILES['project_files']['name'] as $key => $image) {
+
+        $image_name = uniqid() . "_" . $image;
+
+        move_uploaded_file(
+            $_FILES['project_files']['tmp_name'][$key],
+            "assets/img_gallery/" . $image_name
+        );
+
+        mysqli_query($conn, "INSERT INTO project_files (project_id, image_files)
+        VALUES ('$project_id', '$image_name')
+    ");
+    }
+
+datatables.net buat urutin datanya
