@@ -8,68 +8,56 @@ include "config/koneksi.php";
 // $id = isset($_GET['save']) ? $_GET['save'] : '';
 // $query = mysqli_query($conn, "SELECT * FROM sliders ORDER BY id DESC");
 // $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
-
 //pake mysqli_fetch_assoc (query); untuk edit data karena dia cuma nampilin 1 data
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$query = mysqli_query($conn, "SELECT * FROM projects WHERE id = '$id'");
+$query = mysqli_query($conn, "SELECT, p.id, p.title, p.job_category, p.image, jc.name_category FROM projects p
+    JOIN job_category jc ON p.job_category = jc.id WHERE p.id = '$id'
+");
 $row = mysqli_fetch_assoc($query);
-
 
 //Jika tombol save ditekan ini ceknya
 if (isset($_POST['save'])) {
     $title = $_POST['title'];
-    $article_url = $_POST['article_url'];
-    $thumbnail = $_FILES['thumbnail'];
-    $excerpt = $_POST['excerpt'];
-    $published_at = $_POST['published_at'];
-    $is_active = $_POST['is_active'];
+    $job_category = $_POST['job_category'];
 
-    $id = $row['id'] ?? '';
+    //Simpen gambar tanpa copy copy gambarnya
+    $image = $_FILES['image']['name'];
+    $tmp = $_FILES['image']['tmp_name'];
 
-    //var_dump($image); 
-    //die; buat ngecek tipe datanya kalo misalkan ada error
+    move_uploaded_file($tmp, "img/" . $image);
 
-    //untuk munculin gambar, pake var dump dulu buat liat detail error-nya
+    mysqli_query($conn, "INSERT INTO projects(title, job_category_id, image)
+        VALUES('$title','$job_category','$image')
+    ");
 
-    $thumbnail_name = "";
-    $image_gallery = "";
-
-    // Upload thumbnail
-    if ($thumbnail['error'] == 0) {
-        $thumbnail_name = uniqid() . "_" . $thumbnail['name'];
-
-        $filepath = "assets/thumbnail/" . $thumbnail_name;
-
-        move_uploaded_file($thumbnail['tmp_name'], $filepath);
-    }
-
-    // Query tambah / update data
     if ($id) {
+        if (isset($_POST['update'])) {
 
-        // Hapus thumbnail lama jika upload thumbnail baru
-        if ($thumbnail['error'] == 0 && !empty($row['thumbnail'])) {
+            // cek apakah upload gambar baru
+            if ($_FILES['image']['name'] != "") {
+                $image = $_FILES['image']['name'];
+                $tmp = $_FILES['image']['tmp_name'];
 
-            $old_picture_path = "assets/thumbnail/" . $row['thumbnail'];
+                move_uploaded_file(
+                    $tmp,
+                    "images/" . $image
+                );
 
-            if (file_exists($old_picture_path)) {
-                unlink($old_picture_path);
+                $update = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category', image='$image'WHERE id='$id'");
+            } else {
+                $insert = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category 'WHERE id='$id'");
             }
+        } else {
+            // kalau tidak upload gambar
+            $update = mysqli_query($conn, " UPDATE projects SET title='$title', job_category='$job_category' WHERE id='$id' VALUES ($'$title', $job_category");
+            header("location: project.php=tambah-berhasil");
         }
-
-        $update = mysqli_query($conn, "UPDATE projects SET title='$title', article_url='$article_url', thumbnail='$thumbnail_name', excerpt='$excerpt', published_at='$published_at',
-        is_active='$is_active'
-        WHERE id='$id'");
-
-        header("Location: projects.php?update-berhasil");
     } else {
-
-        $insert = mysqli_query($conn, "INSERT INTO projects (title, article_url, thumbnail, excerpt, published_at, is_active)
-        VALUES
-        ('$title','$article_url','$thumbnail_name','$excerpt','$published_at','$image_gallery','$is_active')");
-
-        header("Location: projects.php?tambah-berhasil");
+        $insert = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category', WHERE id='$id'");
     }
 }
+
+
 
 ?>
 
@@ -145,56 +133,29 @@ if (isset($_POST['save'])) {
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="" class="form-tabel">Article Publish Date</label>
-                                            <input type="date" class="form-control" name="published_at"
-                                                placeholder="Enter projects description" required
-                                                value="<?php echo ($id) ? $row['published_at'] : '' ?>">
+                                            <label class="form-label">Job Category</label>
+                                            <?php $job_category = mysqli_query($conn, "SELECT * FROM job_category"); ?>
+
+                                            <select name="job_category_id" class="form-control" required>
+                                                <option value="">-- Pilih Category --</option>
+                                                <?php while ($cat = mysqli_fetch_assoc($job_category)) { ?>
+                                                    <option value="<?= $cat['id']; ?>"
+                                                        <?php
+                                                        if ($id && $row['job_category'] == $cat['id']) {
+                                                            echo "selected";
+                                                        }
+                                                        ?>>
+                                                        <?= $cat['name_category']; ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
                                         </div>
-
-                                        <div class="mb-3">
-                                            <label for="" class="form-label">Enter Article Highlight</label>
-                                            <textarea name="excerpt"
-                                                class="form-control"><?php echo isset($id) && $id ? $row['excerpt'] : ''; ?></textarea>
-                                        </div>
-
-                                        <!-- 
-                                        kalo mau pake isset, berarti logikanya ?php echo isset($id) && $id ? $row['
-                                                description'] : '' ?, artinya panggil tapi aku mau ngecek dulu si id,
-                                                kalo id ada, berarti si id bakal manggil kolom description buat
-                                                dimunculin -->
-
-
-                                        <div class="mb-3">
-                                            <label for="" class="form-tabel">Article URL</label>
-                                            <input type="text" class="form-control" name="article_url"
-                                                placeholder="Enter Article URL" required
-                                                value="<?php echo ($id) ? $row['article_url'] : '' ?>">
-                                        </div>
-
 
                                         <div class="mb-3">
                                             <label for="" class="form-tabel">Thumbnail</label>
                                             <input type="file" class="form-control" name="thumbnail"
                                                 placeholder="Enter Image"
                                                 value="<?php echo ($id) ? $row['thumbnail'] : '' ?>">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="is_active"
-                                                    id="radioDefault1" value="1" checked>
-                                                <label class="form-check-label" for="radioDefault1">
-                                                    Active
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="is_active"
-                                                    id="radioDefault2" value="0"
-                                                    <?php echo ($id && $row['is_active'] == 1) ?  '' : 'checked' ?>>
-                                                <label class="form-check-label" for="radioDefault2">
-                                                    In-Active
-                                                </label>
-                                            </div>
                                         </div>
 
                                         <div class="mb-3">

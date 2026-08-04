@@ -5,15 +5,17 @@ session_regenerate_id();
 include "config/koneksi.php";
 // show all data from users table
 // from biggest to smallest
-$query = mysqli_query($conn, "SELECT * FROM my_skills ORDER BY id DESC");
+$id = isset($_GET['edit']) ? $_GET['edit'] : '';
+$query = mysqli_query($conn, "SELECT * FROM blog_content WHERE id = '$id'");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 //jika parameter/params delete ada
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
-    $delete = mysqli_query($conn, "DELETE FROM my_skills WHERE id='$delete'");
-    header("location:skills.php?hapus=berhasil");
+    $delete = mysqli_query($conn, "DELETE FROM blog-content WHERE id='$delete'");
+    header("location:blog-contents.php?hapus=berhasil");
 }
+
 
 // $name = $_SESSION['name'];
 // if (!$name) { 
@@ -21,13 +23,12 @@ if (isset($_GET['delete'])) {
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Skills - Admin Sofia Han</title>
+    <title>Resume - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";
@@ -77,11 +78,11 @@ if (isset($_GET['delete'])) {
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
-                            <h3 class="fw-bold mb-3">My Skills</h3>
+                            <h3 class="fw-bold mb-3">Blog Contents</h3>
                         </div>
                         <div class="ms-md-auto py-2 py-md-0">
                             <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> -->
-                            <a href="create-skills.php" class="btn btn-primary btn-round">Add New Skills</a>
+                            <a href="create-blog-contents.php" class="btn btn-primary btn-round">Create Blog</a>
                         </div>
                     </div>
                     <div class="row">
@@ -92,25 +93,29 @@ if (isset($_GET['delete'])) {
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Skills</th>
-                                                <th>Percentage</th>
+                                                <th>Title</th>
+                                                <th>Published Date</th>
+                                                <th>Subtitle</th>
+                                                <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($rows as $index => $row): ?>
-                                                <tr>
-                                                    <td><?php echo $index += 1 ?></td>
-                                                    <td><?php echo $row['skills'] ?></td>
-                                                    <td><?php echo $row['percentage'] ?></td>
-                                                    <td>
-                                                        <a class="btn btn-success btn-sm"
-                                                            href="create-skills.php?edit=<?php echo $row['id'] ?>">Edit</a>
-                                                        <a onclick="return confirm('Are you sure wanna delete this data?')"
-                                                            class=" btn btn-danger btn-sm"
-                                                            href="skills.php?delete=<?php echo $row['id'] ?>">Delete</a>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td><?php echo $index += 1 ?></td>
+                                                <td><?php echo $row['title'] ?></td>
+                                                <td><?php echo $row['year_start'] . "-" . $row['year_end'] ?></td>
+                                                <td><?php echo $row['subtitle'] ?></td>
+                                                <td><?php echo $row['description'] ?></td>
+                                                <td>
+                                                    <a class="btn btn-success btn-sm"
+                                                        href="blog_contents.php?edit=<?php echo $row['id'] ?>">Edit</a>
+                                                    <a onclick="return confirm('Are you sure wanna delete this data?')"
+                                                        class=" btn btn-danger btn-sm"
+                                                        href="blog_contents.php?delete=<?php echo $row['id'] ?>">Delete</a>
+                                                </td>
+                                            </tr>
                                             <?php endforeach ?>
                                         </tbody>
                                     </table>

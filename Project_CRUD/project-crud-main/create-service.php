@@ -30,7 +30,10 @@ if (isset($_POST['save'])) {
         (service_name, icon) 
         VALUES 
         ('$service_name', '$icon')");
-        header("location:service.php?tambah-berhasil");
+        header("location:service.php?tambah=berhasil");
+    } else { 
+$update = mysqli_query($conn, "UPDATE service SET service_name='$service_name', WHERE id='$id'");
+        header("location:service.php?update-berhasil");
     }
 }
 

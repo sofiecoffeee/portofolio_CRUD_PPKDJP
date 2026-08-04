@@ -1,4 +1,4 @@
-<link rel="icon" href="assets/kaiadmin-lite-1.2.0/assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="assets/kaiadmin-lite-1.2.0/assets/img/favicon_latterart.png" type="image/x-icon" />
 
 <!-- Fonts and icons -->
 <script src="assets/kaiadmin-lite-1.2.0/assets/js/plugin/webfont/webfont.min.js"></script>

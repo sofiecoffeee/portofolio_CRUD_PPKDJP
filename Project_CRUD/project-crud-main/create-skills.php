@@ -32,7 +32,7 @@ if (isset($_POST['save'])) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Create Resume - Admin Sofia Han</title>
+    <title>Add Skills - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";

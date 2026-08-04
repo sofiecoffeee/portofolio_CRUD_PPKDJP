@@ -77,7 +77,7 @@ if (isset($_GET['delete'])) {
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
-                            <h3 class="fw-bold mb-3">Resumes</h3>
+                            <h3 class="fw-bold mb-3">Service</h3>
                         </div>
                         <div class="ms-md-auto py-2 py-md-0">
                             <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> -->
@@ -105,10 +105,10 @@ if (isset($_GET['delete'])) {
                                                     <td><?php echo $row['icon'] ?></td>
                                                     <td>
                                                         <a class="btn btn-success btn-sm"
-                                                            href="create-resume.php?edit=<?php echo $row['id'] ?>">Edit</a>
+                                                            href="create-service.php?edit=<?php echo $row['id'] ?>">Edit</a>
                                                         <a onclick="return confirm('Are you sure wanna delete this data?')"
                                                             class=" btn btn-danger btn-sm"
-                                                            href="resume.php?delete=<?php echo $row['id'] ?>">Delete</a>
+                                                            href="service.php?delete=<?php echo $row['id'] ?>">Delete</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach ?>

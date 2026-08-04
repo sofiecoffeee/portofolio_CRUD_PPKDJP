@@ -56,13 +56,13 @@ if (isset($_POST['save'])) {
             $update = mysqli_query($conn, "UPDATE sliders SET 
         title='$title', subtitle='$subtitle', button1_text='$button1_text', button1_link='$button1_link', 
         button2_text='$button2_text', button2_link='$button2_link', image='$filename', description='$description', is_active='$is_active' WHERE id='$id'");
-            header("location:sliders.php?update-berhasil");
+            header("location:sliders.php?update=berhasil");
         } else {
             $insert = mysqli_query($conn, "INSERT INTO sliders
         (title, subtitle, description, button1_text, button1_link, button2_text, button2_link, image, is_active) 
         VALUES 
         ('$title','$subtitle','$description','$button1_text','$button1_link','$button2_text','$button2_link','$filename','$is_active')");
-            header("location:sliders.php?tambah-berhasil");
+            header("location:sliders.php?tambah=berhasil");
         }
 
 
@@ -73,13 +73,6 @@ if (isset($_POST['save'])) {
         title='$title', subtitle='$subtitle', button1_text='$button1_text', button1_link='$button1_link', 
         button2_text='$button2_text', button2_link='$button2_link', description='$description', is_active='$is_active' WHERE id='$id'");
             header("location:sliders.php?update-berhasil");
-        } else {
-
-            $insert = mysqli_query($conn, "INSERT INTO sliders
-        (title, subtitle, description, button1_text, button1_link, button2_text, button2_link, is_active) 
-        VALUES 
-        ('$title','$subtitle','$description','$button1_text','$button1_link','$button2_text','$button2_link', '$is_active')");
-            header("location:sliders.php?tambah-berhasil");
         }
     }
 }

@@ -24,7 +24,7 @@ if (isset($_POST['save'])) {
     } else {
         $insert = mysqli_query($conn, "INSERT INTO resume (year_start, year_end, title, subtitle, description) VALUES ('$year_start', '$year_end', '$title', '$subtitle', '$description')");
     }
-    header("location:resume.php?tambah-berhasil");
+    header("location:resume.php?tambah=berhasil");
 }
 
 ?>
