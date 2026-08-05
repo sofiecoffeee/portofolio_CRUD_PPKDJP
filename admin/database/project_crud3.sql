@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2026 at 07:34 AM
+-- Generation Time: Aug 05, 2026 at 08:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.12
 
@@ -153,7 +153,7 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`id`, `service_name`, `icon`, `is_active`, `created_at`, `update_at`) VALUES
-(0, 'Digital Marketing', 'fa-envelope-open', 1, '2026-08-05 01:14:06', NULL);
+(1, 'Digital Marketing', 'fa-envelope-open', 1, '2026-08-05 01:14:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +206,8 @@ CREATE TABLE `sliders` (
 --
 
 INSERT INTO `sliders` (`id`, `title`, `subtitle`, `description`, `button1_text`, `button1_link`, `button2_text`, `button2_link`, `image`, `is_active`, `created_at`, `updated_at`) VALUES
-(30, 'I am Copi', 'Hello! Thanks for visiting my page.', 'Experienced in social media and growth marketing positions, in addition to customer service in a tech company, ', 'Hire Me', 'mailto:sofiecoffe@email.com', 'See My Profile', 'https://linkedin.com/in/sofiecoffe', '6a703a678b6db_banner-3.jpg', 1, '2026-08-03 06:50:10', '2026-08-03 07:16:01');
+(30, 'I am', 'Based in Jakarta', 'Nice to Meet You!', 'Hire Me', 'mailto:sofiecoffe@email.com', 'My Work', 'https://linkedin.com/in/sofiecoffe', '6a72e87c84699_Slider2.webp', 1, '2026-08-03 06:50:10', '2026-08-05 07:39:33'),
+(34, 'Hello', 'New Friend', 'Lets make a coffee', 'Hire Me', 'mailto:sofiecoffe@email.com', 'My Work', 'https://id.linkedin.com/in/sofiecoffe', '6a72e914641e8_Slider 1.webp', 1, '2026-08-05 07:41:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -263,6 +264,12 @@ ALTER TABLE `resume`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `service`
+--
+ALTER TABLE `service`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
@@ -316,6 +323,12 @@ ALTER TABLE `resume`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `service`
+--
+ALTER TABLE `service`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
@@ -325,7 +338,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `users`

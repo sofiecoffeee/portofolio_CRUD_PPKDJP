@@ -5,52 +5,52 @@ include "admin/config/koneksi.php";
 // 2. Jalankan session
 session_start();
 
-//slider
-$q_slider = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active = 1 ORDER BY id DESC LIMIT 4");
-$slider = mysqli_fetch_all($q_slider, MYSQLI_ASSOC);
+// //sliders
+// $q_sliders = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active = 1 ORDER BY id DESC LIMIT 4");
+// $slider = mysqli_fetch_all($q_slider, MYSQLI_ASSOC);
 
-//settings
-$q_setting = mysqli_query($conn, "SELECT * FROM settings LIMIT 1");
-$setting = mysqli_fetch_assoc($q_setting);
+// //settings
+// $q_setting = mysqli_query($conn, "SELECT * FROM settings LIMIT 1");
+// $setting = mysqli_fetch_assoc($q_setting);
 
-//resume
-$q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY year_end DESC,id DESC");
-$resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
+// //resume
+// $q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY year_end DESC,id DESC");
+// $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
 
-//services
-$q_service = mysqli_query($conn, "SELECT * FROM services ORDER BY id DESC LIMIT 6");
-$services = mysqli_fetch_all($q_service, MYSQLI_ASSOC);
+// //service
+// $q_service = mysqli_query($conn, "SELECT * FROM service ORDER BY id DESC LIMIT 6");
+// $service = mysqli_fetch_all($q_service, MYSQLI_ASSOC);
 
-//skills
-$q_skill = mysqli_query($conn, "SELECT * FROM skills ORDER BY percentage DESC LIMIT 10");
-$skills = mysqli_fetch_all($q_skill, MYSQLI_ASSOC);
+// //skills
+// $q_skill = mysqli_query($conn, "SELECT * FROM skills ORDER BY percentage DESC LIMIT 10");
+// $skills = mysqli_fetch_all($q_skill, MYSQLI_ASSOC);
 
-//projects
-$q_project = mysqli_query($conn, "SELECT * FROM projects ORDER BY id DESC");
-$projects = mysqli_fetch_all($q_project, MYSQLI_ASSOC);
+// //projects
+// $q_project = mysqli_query($conn, "SELECT * FROM projects ORDER BY id DESC");
+// $projects = mysqli_fetch_all($q_project, MYSQLI_ASSOC);
 
-//blog_content
-$q_blog_content = mysqli_query($conn, "SELECT * FROM blog_content ORDER BY date DESC LIMIT 6");
-$contents = mysqli_fetch_all($q_blog_content, MYSQLI_ASSOC);
+// //blog_content
+// $q_blog_content = mysqli_query($conn, "SELECT * FROM blog_content ORDER BY date DESC LIMIT 6");
+// $contents = mysqli_fetch_all($q_blog_content, MYSQLI_ASSOC);
 
-//achievements
-$q_achievement = mysqli_query($conn, "SELECT * FROM achievements ORDER BY id DESC LIMIT 1");
-$achievements = mysqli_fetch_assoc($q_achievement);
+// //achievements
+// $q_achievement = mysqli_query($conn, "SELECT * FROM achievements ORDER BY id DESC LIMIT 1");
+// $achievements = mysqli_fetch_assoc($q_achievement);
 
 //post message save
 if (isset($_POST['save'])) {
-	$name = $_POST['name'];
-	$email = $_POST['email'];
-	$subject = $_POST['subject'];
-	$message = $_POST['message'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
 
-	//pseudo code to users table, tell the table users based from user input
-	$query_input = mysqli_query($conn, "INSERT INTO
+    //pseudo code to users table, tell the table users based from user input
+    $query_input = mysqli_query($conn, "INSERT INTO
         contacts
         (name, email, subject, message)
         VALUE
         ('$name', '$email', '$subject', '$message')");
-	header("location:index.php#contact-section");
+    header("location:index.php#contact-section");
 }
 
 
@@ -94,7 +94,7 @@ if (isset($_POST['save'])) {
                     <li class="nav-item"><a href="#home-section" class="nav-link"><span>Home</span></a></li>
                     <li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
                     <li class="nav-item"><a href="#resume-section" class="nav-link"><span>Resume</span></a></li>
-                    <li class="nav-item"><a href="#services-section" class="nav-link"><span>Services</span></a></li>
+                    <li class="nav-item"><a href="#service-section" class="nav-link"><span>Services</span></a></li>
                     <li class="nav-item"><a href="#skills-section" class="nav-link"><span>Skills</span></a></li>
                     <li class="nav-item"><a href="#projects-section" class="nav-link"><span>Projects</span></a></li>
                     <li class="nav-item"><a href="#blog-section" class="nav-link"><span>My Blog</span></a></li>
@@ -106,47 +106,47 @@ if (isset($_POST['save'])) {
     <section id="home-section" class="hero">
         <div class="home-slider  owl-carousel">
             <?php foreach ($sliders as $index => $value): ?>
-            <?php $subtitle = explode(" ", $value['subtitle']);
+                <?php $subtitle = explode(" ", $value['subtitle']);
                 $title = explode(" ", $value['title']);
                 ?>
 
-            <div class="slider-item ">
-                <div class="overlay"></div>
-                <div class="container">
-                    <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end"
-                        data-scrollax-parent="true">
-                        <div class="one-third js-fullheight order-md-last img"
-                            style="background-image:url('admin/assets/img/<?php echo $sliders[$index]['image']; ?>');">
-                            <div class="overlay"></div>
-                        </div>
-                        <div class="one-forth d-flex  align-items-center ftco-animate"
-                            data-scrollax=" properties: { translateY: '70%' }">
-                            <div class="text">
-                                <span class="subheading"><?= $value['subtitle'] ?></span>
+                <div class="slider-item ">
+                    <div class="overlay"></div>
+                    <div class="container">
+                        <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end"
+                            data-scrollax-parent="true">
+                            <div class="one-third js-fullheight order-md-last img"
+                                style="background-image:url('admin/assets/img/<?php echo $sliders[$index]['image']; ?>');">
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="one-forth d-flex  align-items-center ftco-animate"
+                                data-scrollax=" properties: { translateY: '70%' }">
+                                <div class="text">
+                                    <span class="subheading"><?= $value['subtitle'] ?></span>
 
-                                <h1 class="mb-4 mt-3"><?= $title['0'] ?>
-                                    <span><?php array_shift($title);
+                                    <h1 class="mb-4 mt-3"><?= $title['0'] ?>
+                                        <span><?php array_shift($title);
                                                 echo implode(" ", $title);
                                                 ?></span>
-                                </h1>
+                                    </h1>
 
-                                <h2 class="mb-4"><span><?= $value['description'] ?></span>
-                                </h2>
+                                    <h2 class="mb-4"><span><?= $value['description'] ?></span>
+                                    </h2>
 
-                                <p>
-                                    <a href="<?= $value['button1_link']; ?>" class="btn btn-primary py-3 px-4">
-                                        <?= $value['button1_text']; ?>
-                                    </a>
-                                    <a href="<?= $value['button2_link']; ?>"
-                                        class="btn btn-white btn-outline-white py-3 px-4">
-                                        <?= $value['button2_text']; ?>
-                                    </a>
-                                </p>
+                                    <p>
+                                        <a href="<?= $value['button1_link']; ?>" class="btn btn-primary py-3 px-4">
+                                            <?= $value['button1_text']; ?>
+                                        </a>
+                                        <a href="<?= $value['button2_link']; ?>"
+                                            class="btn btn-white btn-outline-white py-3 px-4">
+                                            <?= $value['button2_text']; ?>
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
 
         </div>
@@ -212,16 +212,16 @@ if (isset($_POST['save'])) {
             </div>
             <div class="row">
                 <?php foreach ($resume as $value) { ?>
-                <div class="col-md-6">
-                    <div class="resume-wrap ftco-animate">
-                        <span class="date">
-                            <?= $value['year_start']; ?> - <?= $value['year_end']; ?>
-                        </span>
-                        <h2><?= $value['title']; ?></h2>
-                        <span class="position"><?= $value['subtitle']; ?></span>
-                        <p class="mt-4"><?= $value['description']; ?></p>
+                    <div class="col-md-6">
+                        <div class="resume-wrap ftco-animate">
+                            <span class="date">
+                                <?= $value['year_start']; ?> - <?= $value['year_end']; ?>
+                            </span>
+                            <h2><?= $value['title']; ?></h2>
+                            <span class="position"><?= $value['subtitle']; ?></span>
+                            <p class="mt-4"><?= $value['description']; ?></p>
+                        </div>
                     </div>
-                </div>
                 <?php } ?>
             </div>
             <div class="row justify-content-center mt-5">
@@ -232,18 +232,18 @@ if (isset($_POST['save'])) {
         </div>
     </section>
 
-    <section class="ftco-section" id="services-section">
+    <section class="ftco-section" id="service-section">
         <div class="container">
             <div class="row justify-content-center py-5 mt-5">
                 <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big big-2">Services</h1>
-                    <h2 class="mb-4">Services</h2>
+                    <h1 class="big big-2">Service</h1>
+                    <h2 class="mb-4">Service</h2>
                     <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-analysis"></i>
                         </span>
@@ -253,7 +253,7 @@ if (isset($_POST['save'])) {
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-flasks"></i>
                         </span>
@@ -263,7 +263,7 @@ if (isset($_POST['save'])) {
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-ideas"></i>
                         </span>
@@ -274,7 +274,7 @@ if (isset($_POST['save'])) {
                 </div>
 
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-analysis"></i>
                         </span>
@@ -284,7 +284,7 @@ if (isset($_POST['save'])) {
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-flasks"></i>
                         </span>
@@ -697,7 +697,7 @@ if (isset($_POST['save'])) {
                         <ul class="list-unstyled">
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>About</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Services</a></li>
+                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Service</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Projects</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Contact</a></li>
                         </ul>
@@ -739,7 +739,7 @@ if (isset($_POST['save'])) {
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;<script>
-                        document.write(new Date().getFullYear());
+                            document.write(new Date().getFullYear());
                         </script> All rights reserved | This template is made with <i class="icon-heart color-danger"
                             aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
