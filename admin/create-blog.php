@@ -11,17 +11,18 @@ include "config/koneksi.php";
 
 //pake mysqli_fetch_assoc (query); untuk edit data karena dia cuma nampilin 1 data
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$query = mysqli_query($conn, "SELECT * FROM blog_content WHERE id = '$id'");
+$query = mysqli_query($conn, "SELECT * FROM sliders WHERE id = '$id'");
 $row = mysqli_fetch_assoc($query);
 
 
 //Jika tombol save ditekan ini ceknya
 if (isset($_POST['save'])) {
-    $date = $_POST['date'];
     $title = $_POST['title'];
+    $date = $_POST['date'];
     $image = $_FILES['image'];
     $short_description = $_POST['short_description'];
     $url_blog = $_POST['url_blog'];
+    $comment_count = $_POST['comment_count'];
     $id = $row['id'] ?? '';
 
     //var_dump($image); 
@@ -32,7 +33,7 @@ if (isset($_POST['save'])) {
 
         //bisa juga pake basename ($image['name']);
 
-        $filepath = "assets/" . $filename; //fungsinya buat bikin tempat simpen gambarnya
+        $filepath = "assets/img/" . $filename; //fungsinya buat bikin tempat simpen gambarnya
 
         move_uploaded_file($image['tmp_name'], $filepath);
         // var_dump($id);
@@ -49,18 +50,14 @@ if (isset($_POST['save'])) {
                 }
             }
 
-        $update = mysqli_query($conn, "UPDATE blog-content SET 
-       date='$date', 
-       title='$title', 
-       image='$image', short_description='$short_description', 
-        url_blog ='$url_blog' 
-        WHERE id='$id'");
+            $update = mysqli_query($conn, "UPDATE `blog-content` SET 
+        title='$title', date='$date', image='$filename', short_description='$short_description', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
             header("location:blog-contents.php?update=berhasil");
         } else {
-            $insert = mysqli_query($conn, "INSERT INTO blog_content
-        (date, title, image, short_description, url_blog) 
+            $insert = mysqli_query($conn, "INSERT INTO `blog-content`
+        (title, date, image, short_description, url_blog, comment_count) 
         VALUES 
-        ('$date','$title','$image,','$short_description','$url_blog')");
+        ('$title','$date','$filename','$short_description', '$url_blog', '$comment_count')");
             header("location:blog-contents.php?tambah=berhasil");
         }
 
@@ -68,17 +65,9 @@ if (isset($_POST['save'])) {
         //kalo mau update tanpa harus mengubah gambar
     } else {
         if ($id) {
-            $update = mysqli_query($conn, "UPDATE blog-content SET 
-        date='$date', title='$title', short_description='$short_description', 
-        url_blog ='$url_blog' WHERE id='$id'");
-            header("location:blog-contents.php?update=berhasil");
-        } else {
-
-            $insert = mysqli_query($conn, "INSERT INTO sliders
-        (date, title, short_description, url_blog) 
-        VALUES 
-        ('$date','$title','$image,','$short_description','$url_blog')");
-            header("location:blog-contents.php?tambah=berhasil");
+            $update = mysqli_query($conn, "UPDATE `blog-content` SET 
+        title='$title', date='$date', short_description='$short_description', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
+            header("location:create-blog.php?update-berhasil");
         }
     }
 }
@@ -140,7 +129,7 @@ if (isset($_POST['save'])) {
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
                             <h3 class="fw-bold mb-3">
-                                <?php echo isset($_GET['edit']) ? 'Edit Blog' : 'Create Blog' ?>
+                                <?php echo isset($_GET['edit']) ? 'Edit Blog Data' : 'Create Blog Data' ?>
                             </h3>
                         </div>
                     </div>
@@ -149,18 +138,17 @@ if (isset($_POST['save'])) {
                             <div class="card">
                                 <div class="card-body">
                                     <form action="" method="post" enctype="multipart/form-data">
-
                                         <div class="mb-3">
                                             <label for="" class="form-tabel">Title</label>
                                             <input type="text" class="form-control" name="title"
-                                                placeholder="Enter subtitle" required
+                                                placeholder="Enter title" required
                                                 value="<?php echo ($id) ? $row['title'] : '' ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="" class="form-tabel">Published Date</label>
                                             <input type="date" class="form-control" name="date"
-                                                placeholder="Enter date" required
+                                                placeholder="Submit Publish Date" required
                                                 value="<?php echo ($id) ? $row['date'] : '' ?>">
                                         </div>
 
@@ -171,20 +159,30 @@ if (isset($_POST['save'])) {
                                                 value="<?php echo ($id) ? $row['image'] : '' ?>">
                                         </div>
 
-
                                         <div class="mb-3">
-                                            <label for="" class="form-tabel">Short Description</label>
-                                            <input type="text" class="form-control" name="button1_text"
-                                                placeholder="Enter preview" required
-                                                value="<?php echo ($id) ? $row['short-description'] : '' ?>">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="" class="form-tabel">Article URL</label>
+                                            <label for="" class="form-tabel">URL Blog</label>
                                             <input type="url" class="form-control" name="url_blog"
-                                                placeholder="Enter URL required"
+                                                placeholder="Enter Blog URL" required
                                                 value="<?php echo ($id) ? $row['url_blog'] : '' ?>">
                                         </div>
+
+                                        <div class="mb-3">
+                                            <label for="" class="form-tabel">Count</label>
+                                            <input type="number" class="form-control" name="comment_count"
+                                                placeholder="Enter button 2 text" required
+                                                value="<?php echo ($id) ? $row['comment_count'] : '' ?>">
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="" class="form-label fw-bold">Description</label>
+                                            <textarea name="short_description" id=""
+                                                class="form-control"><?php echo isset($id) && $id ? $row['short_description'] : '' ?></textarea>
+                                        </div>
+
+                                        <!-- 
+                                        kalo mau pake isset, berarti logikanya ?php echo isset($id) && $id ? $row['description'] : '' ?, artinya 
+                                        panggil tapi aku mau ngecek dulu si id, kalo id ada, berarti si id bakal manggil kolom description buat dimunculin -->
 
                                         <div class="mb-3">
                                             <button class="btn btn-primary" name="save" type="submit">Save</button>

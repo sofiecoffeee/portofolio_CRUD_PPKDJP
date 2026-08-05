@@ -10,54 +10,62 @@ include "config/koneksi.php";
 // $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
 //pake mysqli_fetch_assoc (query); untuk edit data karena dia cuma nampilin 1 data
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$query = mysqli_query($conn, "SELECT, p.id, p.title, p.job_category, p.image, jc.name_category FROM projects p
-    JOIN job_category jc ON p.job_category = jc.id WHERE p.id = '$id'
-");
+$query = mysqli_query($conn, "SELECT * FROM projects WHERE id = '$id'");
 $row = mysqli_fetch_assoc($query);
+
 
 //Jika tombol save ditekan ini ceknya
 if (isset($_POST['save'])) {
     $title = $_POST['title'];
     $job_category = $_POST['job_category'];
+    $article_url = $_POST['article_url'];
+    $image = $_FILES['image'];
 
-    //Simpen gambar tanpa copy copy gambarnya
-    $image = $_FILES['image']['name'];
-    $tmp = $_FILES['image']['tmp_name'];
+    //var_dump($image); 
+    //die; buat ngecek tipe datanya kalo misalkan ada error
+    //untuk munculin gambar, pake var dump dulu buat liat detail error-nya
+    if ($image['error'] == 0) {
+        $filename = uniqid() . "_" . $image['name'];
 
-    move_uploaded_file($tmp, "img/" . $image);
+        //bisa juga pake basename ($image['name']);
 
-    mysqli_query($conn, "INSERT INTO projects(title, job_category_id, image)
-        VALUES('$title','$job_category','$image')
-    ");
+        $filepath = "assets/img/" . $filename; //fungsinya buat bikin tempat simpen gambarnya
 
-    if ($id) {
-        if (isset($_POST['update'])) {
+        move_uploaded_file($image['tmp_name'], $filepath);
+        // var_dump($id);
+        // die;
 
-            // cek apakah upload gambar baru
-            if ($_FILES['image']['name'] != "") {
-                $image = $_FILES['image']['name'];
-                $tmp = $_FILES['image']['tmp_name'];
 
-                move_uploaded_file(
-                    $tmp,
-                    "images/" . $image
-                );
-
-                $update = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category', image='$image'WHERE id='$id'");
-            } else {
-                $insert = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category 'WHERE id='$id'");
+        //query tambah data
+        if ($id) {
+            //kalo mau update gambar tapi gambarnya langsung kehapus ngga nyampah
+            if ($id && !empty($row['image'])) {
+                $old_picture_path = "assets/img/" . $row['image'];
+                if (file_exists($old_picture_path)) {
+                    unlink($old_picture_path);
+                }
             }
+
+            $update = mysqli_query($conn, "UPDATE projects SET title='$title', job_category='$job_category', image='$filename', article_url='$article_url' WHERE id='$id'");
+            header("location:projects.php?update=berhasil");
+            exit;
         } else {
-            // kalau tidak upload gambar
-            $update = mysqli_query($conn, " UPDATE projects SET title='$title', job_category='$job_category' WHERE id='$id' VALUES ($'$title', $job_category");
-            header("location: project.php=tambah-berhasil");
+            $insert = mysqli_query($conn, "INSERT INTO projects
+        (title, job_category, image, article_url) 
+        VALUES 
+        ('$title','$job_category','$filename', '$article_url')");
+            header("location:projects.php?tambah=berhasil");
         }
+
+
+        //kalo mau update tanpa harus mengubah gambar
     } else {
-        $insert = mysqli_query($conn, " UPDATE projects SET title='$title' job_category='$job_category', WHERE id='$id'");
+        if ($id) {
+            $update = mysqli_query($conn, "UPDATE projects SET title='$title', job_category='$job_category', article_url= '$article_url' WHERE id='$id'");
+            header("location:projects.php?update=berhasil");
+        }
     }
 }
-
-
 
 ?>
 
@@ -66,7 +74,7 @@ if (isset($_POST['save'])) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Create Projects - Admin Sofia Han</title>
+    <title>Create Slider - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";
@@ -86,9 +94,9 @@ if (isset($_POST['save'])) {
                 <div class="main-header-logo">
                     <!-- Logo Header -->
                     <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
+                        <a href="dashboard.html" class="logo">
                             <img src="assets/kaiadmin-lite-1.2.0/assets/img/logo_white.png" alt="navbar brand"
-                                class="navbar-brand" height="80" />
+                                class="navbar-brand" height="80">
                         </a>
                         <div class="nav-toggle">
                             <button class="btn btn-toggle toggle-sidebar">
@@ -116,7 +124,7 @@ if (isset($_POST['save'])) {
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
                             <h3 class="fw-bold mb-3">
-                                <?php echo isset($_GET['edit']) ? 'Edit Projects' : 'Create Projects' ?>
+                                <?php echo isset($_GET['edit']) ? 'Edit Project' : 'Create Project' ?>
                             </h3>
                         </div>
                     </div>
@@ -125,6 +133,8 @@ if (isset($_POST['save'])) {
                             <div class="card">
                                 <div class="card-body">
                                     <form action="" method="post" enctype="multipart/form-data">
+
+
                                         <div class="mb-3">
                                             <label for="" class="form-tabel">Title</label>
                                             <input type="text" class="form-control" name="title"
@@ -133,29 +143,24 @@ if (isset($_POST['save'])) {
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label">Job Category</label>
-                                            <?php $job_category = mysqli_query($conn, "SELECT * FROM job_category"); ?>
-
-                                            <select name="job_category_id" class="form-control" required>
-                                                <option value="">-- Pilih Category --</option>
-                                                <?php while ($cat = mysqli_fetch_assoc($job_category)) { ?>
-                                                    <option value="<?= $cat['id']; ?>"
-                                                        <?php
-                                                        if ($id && $row['job_category'] == $cat['id']) {
-                                                            echo "selected";
-                                                        }
-                                                        ?>>
-                                                        <?= $cat['name_category']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
+                                            <label for="" class="form-tabel">Job Category</label>
+                                            <input type="text" class="form-control" name="job_category"
+                                                placeholder="Enter title" required
+                                                value="<?php echo ($id) ? $row['job_category'] : '' ?>">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="" class="form-tabel">Thumbnail</label>
-                                            <input type="file" class="form-control" name="thumbnail"
+                                            <label for="" class="form-tabel">Image</label>
+                                            <input type="file" class="form-control" name="image"
                                                 placeholder="Enter Image"
-                                                value="<?php echo ($id) ? $row['thumbnail'] : '' ?>">
+                                                value="<?php echo ($id) ? $row['image'] : '' ?>">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="" class="form-tabel">Article URL</label>
+                                            <input type="text" class="form-control" name="article_url"
+                                                placeholder="Enter URL" required
+                                                value="<?php echo ($id) ? $row['article_url'] : '' ?>">
                                         </div>
 
                                         <div class="mb-3">

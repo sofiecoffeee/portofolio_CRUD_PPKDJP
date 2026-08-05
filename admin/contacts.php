@@ -5,24 +5,16 @@ session_regenerate_id();
 include "config/koneksi.php";
 // show all data from users table
 // from biggest to smallest
-$query = mysqli_query($conn, "SELECT * FROM projects ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT * FROM contacts ORDER BY id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 //jika parameter/params delete ada
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
-
-    $img = mysqli_query($conn, "SELECT thumbnail FROM projects WHERE id='$delete'");
-    $rowImg = mysqli_fetch_assoc($img); {
-        $old_picture_path = "assets/thumbnail/" . $rowImg['thumbnail'];
-        if (file_exists($old_picture_path)) {
-            unlink($old_picture_path);
-        }
-    }
-
-    $delete = mysqli_query($conn, "DELETE FROM projects WHERE id='$delete'");
-    header("location:projects.php?hapus=berhasil");
+    $delete = mysqli_query($conn, "DELETE FROM contacts WHERE id='$delete'");
+    header("location:user.php?hapus=berhasil");
 }
+
 
 // $name = $_SESSION['name'];
 // if (!$name) { 
@@ -31,12 +23,13 @@ if (isset($_GET['delete'])) {
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Projects - Admin Sofia Han</title>
+    <title>Contacts - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";
@@ -57,7 +50,7 @@ if (isset($_GET['delete'])) {
                 <div class="main-header-logo">
                     <!-- Logo Header -->
                     <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
+                        <a href="dashboard.html" " class=" logo">
                             <img src="assets/kaiadmin-lite-1.2.0/assets/img/logo_white.png" alt="navbar brand"
                                 class="navbar-brand" height="80" />
                         </a>
@@ -86,11 +79,7 @@ if (isset($_GET['delete'])) {
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
-                            <h3 class="fw-bold mb-3">Projects</h3>
-                        </div>
-                        <div class="ms-md-auto py-2 py-md-0">
-                            <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> -->
-                            <a href="create-projects.php" class="btn btn-primary btn-round">Create Project</a>
+                            <h3 class="fw-bold mb-3">Contacts</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -101,33 +90,28 @@ if (isset($_GET['delete'])) {
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Thumbnail</th>
-                                                <th>Title</th>
-                                                <th>Publish Date</th>
-                                                <th>Article URL</th>
-                                                <th>Excerpt</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-
-                                        <?php foreach ($rows as $index => $row): ?>
+                                        <tbody>
+                                            <?php foreach ($rows as $index => $row): ?>
                                             <tr>
                                                 <td><?php echo $index += 1 ?></td>
-                                                <td> <img src="assets/thumbnail/<?php echo $row['thumbnail'] ?>" width="50"
-                                                        alt="">
-                                                <td><?php echo $row['title'] ?></td>
-                                                <td><?php echo $row['published_at'] ?></td>
-                                                <td><?php echo $row['article_url'] ?></td>
-                                                <td><?php echo $row['excerpt'] ?></td>
+                                                <td><?php echo $row['name'] ?></td>
+                                                <td><?php echo $row['email'] ?></td>
+                                                <td><?php echo $row['subject'] ?></td>
                                                 <td>
                                                     <a class="btn btn-success btn-sm"
-                                                        href="create-projects.php?edit=<?php echo $row['id'] ?>">Edit</a>
+                                                        href="contact-detail.php?id=<?php echo $row['id'] ?>">Detail</a>
                                                     <a onclick="return confirm('Are you sure wanna delete this data?')"
                                                         class=" btn btn-danger btn-sm"
-                                                        href="projects.php?delete=<?php echo $row['id'] ?>">Delete</a>
+                                                        href="contacts.php?delete=<?php echo $row['id'] ?>">Delete</a>
                                                 </td>
                                             </tr>
-                                        <?php endforeach ?>
+                                            <?php endforeach ?>
                                         </tbody>
                                     </table>
                                 </div>

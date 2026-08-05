@@ -1,24 +1,58 @@
 <?php
 // 1. Sertakan file koneksi
-include "Project_CRUD/project-crud-main/config/koneksi.php";
+include "admin/config/koneksi.php";
 
 // 2. Jalankan session
 session_start();
 
-$q_slider = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active=1 ORDER BY id DESC LIMIT 2");
-$sliders = mysqli_fetch_all($q_slider, MYSQLI_ASSOC);
+//slider
+$q_slider = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active = 1 ORDER BY id DESC LIMIT 4");
+$slider = mysqli_fetch_all($q_slider, MYSQLI_ASSOC);
 
-//var_dump($sliders);
-//die; buat ngecek tipe datanya kalo misalkan ada error
+//settings
+$q_setting = mysqli_query($conn, "SELECT * FROM settings LIMIT 1");
+$setting = mysqli_fetch_assoc($q_setting);
 
-
-//SETTINGS atau About us
-$q_settings = mysqli_query($conn, "SELECT * FROM settings ORDER by id DESC LIMIT 1");
-$about = mysqli_fetch_assoc($q_settings);
-
-// Resume
-$q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY id DESC");
+//resume
+$q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY year_end DESC,id DESC");
 $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
+
+//services
+$q_service = mysqli_query($conn, "SELECT * FROM services ORDER BY id DESC LIMIT 6");
+$services = mysqli_fetch_all($q_service, MYSQLI_ASSOC);
+
+//skills
+$q_skill = mysqli_query($conn, "SELECT * FROM skills ORDER BY percentage DESC LIMIT 10");
+$skills = mysqli_fetch_all($q_skill, MYSQLI_ASSOC);
+
+//projects
+$q_project = mysqli_query($conn, "SELECT * FROM projects ORDER BY id DESC");
+$projects = mysqli_fetch_all($q_project, MYSQLI_ASSOC);
+
+//blog_content
+$q_blog_content = mysqli_query($conn, "SELECT * FROM blog_content ORDER BY date DESC LIMIT 6");
+$contents = mysqli_fetch_all($q_blog_content, MYSQLI_ASSOC);
+
+//achievements
+$q_achievement = mysqli_query($conn, "SELECT * FROM achievements ORDER BY id DESC LIMIT 1");
+$achievements = mysqli_fetch_assoc($q_achievement);
+
+//post message save
+if (isset($_POST['save'])) {
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+	$subject = $_POST['subject'];
+	$message = $_POST['message'];
+
+	//pseudo code to users table, tell the table users based from user input
+	$query_input = mysqli_query($conn, "INSERT INTO
+        contacts
+        (name, email, subject, message)
+        VALUE
+        ('$name', '$email', '$subject', '$message')");
+	header("location:index.php#contact-section");
+}
+
 
 ?>
 
@@ -82,7 +116,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end"
                         data-scrollax-parent="true">
                         <div class="one-third js-fullheight order-md-last img"
-                            style="background-image:url('Project_CRUD/project-crud-main/assets/img/<?php echo $sliders[$index]['image']; ?>');">
+                            style="background-image:url('admin/assets/img/<?php echo $sliders[$index]['image']; ?>');">
                             <div class="overlay"></div>
                         </div>
                         <div class="one-forth d-flex  align-items-center ftco-animate"

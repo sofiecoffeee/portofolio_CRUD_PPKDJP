@@ -5,14 +5,14 @@ session_regenerate_id();
 include "config/koneksi.php";
 // show all data from users table
 // from biggest to smallest
-$query = mysqli_query($conn, "SELECT * FROM sliders ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT * FROM `blog-content` ORDER BY id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 //jika parameter/params delete ada
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
 
-    $img = mysqli_query($conn, "SELECT image FROM sliders WHERE id='$delete'");
+    $img = mysqli_query($conn, "SELECT image FROM `blog-content` WHERE id='$delete'");
     $rowImg = mysqli_fetch_assoc($img); {
         $old_picture_path = "assets/img/" . $rowImg['image'];
         if (file_exists($old_picture_path)) {
@@ -20,8 +20,8 @@ if (isset($_GET['delete'])) {
         }
     }
 
-    $delete = mysqli_query($conn, "DELETE FROM sliders WHERE id='$delete'");
-    header("location:sliders.php?hapus=berhasil");
+    $delete = mysqli_query($conn, "DELETE FROM `blog-content` WHERE id='$delete'");
+    header("location:blog-contents.php?hapus=berhasil");
 }
 
 // $name = $_SESSION['name'];
@@ -36,7 +36,7 @@ if (isset($_GET['delete'])) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Sliders - Admin Sofia Han</title>
+    <title>Projects - Admin Sofia Han</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <?php
     include "inc/css.php";
@@ -86,11 +86,11 @@ if (isset($_GET['delete'])) {
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                         <div>
-                            <h3 class="fw-bold mb-3">Slider</h3>
+                            <h3 class="fw-bold mb-3">Add Blog</h3>
                         </div>
                         <div class="ms-md-auto py-2 py-md-0">
                             <!-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> -->
-                            <a href="create-slider.php" class="btn btn-primary btn-round">Create Slider</a>
+                            <a href="create-blog.php" class="btn btn-primary btn-round">Add Blog</a>
                         </div>
                     </div>
                     <div class="row">
@@ -101,38 +101,38 @@ if (isset($_GET['delete'])) {
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Image</th>
                                                 <th>Title</th>
-                                                <th>Subtitle</th>
-                                                <th>Button 1 Text </th>
-                                                <!-- <th>Button 1 Link </th> -->
-                                                <th>Button 2 Text </th>
-                                                <!-- <th>Button 2 Link </th> -->
-                                                <th>Description</th>
+                                                <th>Publish Date</th>
+                                                <th>Image</th>
+                                                <th>Short Description</th>
+                                                <!-- <th>Article URL</th> -->
+                                                <th>Comment Count</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
 
                                         <?php foreach ($rows as $index => $row): ?>
-                                        <tr>
-                                            <td><?php echo $index += 1 ?></td>
-                                            <td> <img src="assets/img/<?php echo $row['image'] ?>" width="50" alt="">
-                                            </td>
-                                            <td><?php echo $row['title'] ?></td>
-                                            <td><?php echo $row['subtitle'] ?></td>
-                                            <td><?php echo $row['button1_text'] ?></td>
-                                            <!-- <td><?php echo $row['button1_link'] ?></td> -->
-                                            <td><?php echo $row['button2_text'] ?></td>
-                                            <!-- <td><?php echo $row['button2_link'] ?></td> -->
-                                            <td><?php echo $row['description'] ?></td>
-                                            <td>
-                                                <a class="btn btn-success btn-sm"
-                                                    href="create-slider.php?edit=<?php echo $row['id'] ?>">Edit</a>
-                                                <a onclick="return confirm('Are you sure wanna delete this data?')"
-                                                    class=" btn btn-danger btn-sm"
-                                                    href="sliders.php?delete=<?php echo $row['id'] ?>">Delete</a>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td><?php echo $index += 1 ?></td>
+
+
+                                                <td><?php echo $row['title'] ?></td>
+                                                <td><?php echo $row['date'] ?></td>
+                                                <td> <img src="assets/img/<?php echo $row['image'] ?>" width="50" alt="">
+                                                </td>
+                                                <td><?php echo $row['short_description'] ?></td>
+                                                <!-- <td><?php echo $row['url_blog'] ?></td> -->
+                                                <td><?php echo $row['comment_count'] ?></td>
+
+                                                <td>
+                                                    <a class="btn btn-success btn-sm"
+                                                        href="create-blog.php?edit=<?php echo $row['id'] ?>">Edit</a>
+                                                    <a onclick="return confirm('Are you sure wanna delete this data?')"
+                                                        class=" btn btn-danger btn-sm"
+                                                        href="blog-contents.php?delete=<?php echo $row['id'] ?>">Delete</a>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         <?php endforeach ?>
                                         </tbody>
                                     </table>

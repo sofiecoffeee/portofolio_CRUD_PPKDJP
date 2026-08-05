@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2026 at 05:03 PM
+-- Generation Time: Aug 05, 2026 at 07:34 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,29 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `blog_content`
+-- Table structure for table `blog-content`
 --
 
-CREATE TABLE `blog_content` (
+CREATE TABLE `blog-content` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `title` varchar(100) NOT NULL,
   `image` varchar(50) NOT NULL,
   `short_description` varchar(255) DEFAULT NULL,
   `url_blog` varchar(100) NOT NULL,
+  `comment_count` int(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `blog_content`
+-- Dumping data for table `blog-content`
 --
 
-INSERT INTO `blog_content` (`id`, `date`, `title`, `image`, `short_description`, `url_blog`, `created_at`, `updated_at`) VALUES
-(1, '2026-08-12', 'tets', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:49:22', NULL),
-(2, '2027-08-12', 'aasfsaf', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:50:19', NULL),
-(3, '2007-07-07', 'test3', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:52:00', NULL),
-(4, '2022-02-22', 'tets', 'Array,', '', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', '2026-08-04 14:57:21', NULL);
+INSERT INTO `blog-content` (`id`, `date`, `title`, `image`, `short_description`, `url_blog`, `comment_count`, `created_at`, `updated_at`) VALUES
+(1, '2006-02-10', 'asfasfasa', '6a72e6492b6fe_images.jfif', 'sfafasfasf', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', 2, '2026-08-05 07:29:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -67,43 +65,6 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `job_category`
---
-
-CREATE TABLE `job_category` (
-  `id` int(11) NOT NULL,
-  `name_category` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `job_category`
---
-
-INSERT INTO `job_category` (`id`, `name_category`) VALUES
-(1, 'Web Design'),
-(2, 'UI/UX Design'),
-(3, 'Branding & Identity'),
-(4, 'Graphic Design'),
-(5, 'Motion Graphics'),
-(6, '3D Modeling & Animation'),
-(7, 'Video Editing'),
-(8, 'Photography & Videography'),
-(9, 'Illustrator & Digital Art'),
-(10, 'Front-End Web Development'),
-(11, 'Back-End Web Development'),
-(12, 'Full-Stack Development'),
-(13, 'Mobile Apps Development'),
-(14, 'Game Development'),
-(15, 'Social Media Specialist'),
-(16, 'Digital Marketing & SEO'),
-(17, 'Copywriting & Content Writing'),
-(18, 'DevOps Engineering'),
-(19, 'Data Science & Analytics'),
-(20, 'Cyber Security');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `my_skills`
 --
 
@@ -111,7 +72,6 @@ CREATE TABLE `my_skills` (
   `id` int(11) NOT NULL,
   `skills` varchar(50) NOT NULL,
   `percentage` int(100) NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -120,8 +80,8 @@ CREATE TABLE `my_skills` (
 -- Dumping data for table `my_skills`
 --
 
-INSERT INTO `my_skills` (`id`, `skills`, `percentage`, `is_active`, `created_at`, `updated_at`) VALUES
-(2, 'Digital Marketing', 100, 1, '2026-08-04 11:43:26', NULL);
+INSERT INTO `my_skills` (`id`, `skills`, `percentage`, `created_at`, `updated_at`) VALUES
+(1, 'flying in the air', 100, '2026-08-04 07:58:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -132,11 +92,19 @@ INSERT INTO `my_skills` (`id`, `skills`, `percentage`, `is_active`, `created_at`
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `job_category` int(100) NOT NULL,
+  `job_category` varchar(100) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `article_url` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`id`, `title`, `job_category`, `image`, `article_url`, `created_at`, `updated_at`) VALUES
+(6, 'sdfasfas', 'fasdfafaf', '6a72c8a588d8b_images.jfif', 'https://github.com/sofiecoffeee?tab=repositories', '2026-08-05 05:22:45', '2026-08-05 05:22:45');
 
 -- --------------------------------------------------------
 
@@ -162,7 +130,6 @@ CREATE TABLE `resume` (
 
 INSERT INTO `resume` (`id`, `year_start`, `year_end`, `title`, `subtitle`, `description`, `submit_cv`, `created_at`, `update_at`) VALUES
 (1, '2020', '2025', 'Product Marketing Operation Lead', 'KAKAO ENTERTAINMENT (KAKAO WEBTOON ID)', 'Plan & set budget monthly webtoon update seasons/end seasons events, new Release webtoon promotions, webtoon to-drama/movie promotion, and thematic theme campaign promotions, Align the communication between the Indonesia Operation Team (Designers, Social Media Specialist, Performance Marketing) and the Korean Business Team for running day-to-day business operations', '', '2026-08-01 07:59:09', '2026-08-03 07:33:09'),
-(2, '2025', '2026', 'Marketing Specialist', 'bilibili Group', 'Manage social media platforms (TikTok, Instagram, X, Facebook) with 98%+ follower growth and significant increase in engagement and impressions, Collaborate with cross-functional teams to promote platform features and culturally relevant content\r\n\r\nStrengthen community collaboration through, Japan-Anime Interested media, and community-fandom through content and campaigns', '', '2026-08-01 08:16:41', '2026-08-03 07:31:25'),
 (3, '2019', '2019', 'Internal Communications Officer', 'tiket.com', 'Facilitate to deliver the information or event from various HR divisions ', '', '2026-08-03 07:36:41', NULL),
 (4, '2018', '2019', 'Customer Service: Outreach Service', 'Bukalapak', 'Facilitate the internal BukaBantuan’s development offline events (Townhall, Developing Trainings, Fun Music/Movie Nights, Hari Konsumen Nasional Projects), and Internal customer service divisions.', '', '2026-08-03 07:41:31', NULL);
 
@@ -186,7 +153,7 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`id`, `service_name`, `icon`, `is_active`, `created_at`, `update_at`) VALUES
-(4, 'test', 'fa-pixel fa-regular fa-file', 1, '2026-08-04 11:43:00', NULL);
+(0, 'Digital Marketing', 'fa-envelope-open', 1, '2026-08-05 01:14:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -211,7 +178,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `website_name`, `email`, `phone`, `address`, `description`, `ig`, `created_at`, `update_at`) VALUES
-(1, 'www.coba.baru', 'crayonshinchan@gmail.com', '081912189318', 'seluruh kota', 'merupakan teman bermain yang asyik', '@chocobi', '2026-07-30 03:07:43', '2026-08-04 11:14:11');
+(1, 'www.coba.baru', 'crayonshinchan@gmail.com', '081912189318', 'seluruh kota', 'merupakan teman bermain yang asyik', 'chocobi', '2026-07-30 03:07:43', '2026-07-30 03:43:38');
 
 -- --------------------------------------------------------
 
@@ -259,29 +226,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(19, 'Gadis gemoy', 'mencaricintasejati@gmail.com', '$2y$12$aGaXuYh5JwBV72JnQac0cOSVnWEmgAY.MgEVozKtdWy6F5wC4kWvS'),
-(41, 'test', 'testaja@gmail.com', '$2y$12$cPlMp0of5VWLJj4gmZFlzOG1ZLe4Fggomyh97f.G.iRjQvZ8IlqaW');
+(56, 'Admin', 'admin@gmail.com', '$2y$12$3PQZDJU98N8vKYlt4wUn6e6B5QyGBeuYjJCkkSPMIdcLg.R6xlGNK');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `blog_content`
+-- Indexes for table `blog-content`
 --
-ALTER TABLE `blog_content`
+ALTER TABLE `blog-content`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `contacts`
 --
 ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `job_category`
---
-ALTER TABLE `job_category`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -294,19 +254,12 @@ ALTER TABLE `my_skills`
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`job_category`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `resume`
 --
 ALTER TABLE `resume`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `service`
---
-ALTER TABLE `service`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -333,10 +286,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `blog_content`
+-- AUTO_INCREMENT for table `blog-content`
 --
-ALTER TABLE `blog_content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `blog-content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -345,33 +298,21 @@ ALTER TABLE `contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `job_category`
---
-ALTER TABLE `job_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
 -- AUTO_INCREMENT for table `my_skills`
 --
 ALTER TABLE `my_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `resume`
 --
 ALTER TABLE `resume`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `service`
---
-ALTER TABLE `service`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -384,23 +325,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `projects`
---
-ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`job_category`) REFERENCES `job_category` (`id`);
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
