@@ -5,20 +5,56 @@ include "admin/config/koneksi.php";
 // 2. Jalankan session
 session_start();
 
-//sliders
-$q_sliders = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active = 1 ORDER BY id DESC LIMIT 4");
-$sliders = mysqli_fetch_all($q_sliders, MYSQLI_ASSOC);
+// //sliders
+// $q_sliders = mysqli_query($conn, "SELECT * FROM sliders WHERE is_active = 1 ORDER BY id DESC LIMIT 4");
+// $slider = mysqli_fetch_all($q_sliders, MYSQLI_ASSOC);
 
-//Settings
-$q_settings = mysqli_query($conn, "SELECT * FROM settings LIMIT 1");
-$settings = mysqli_fetch_assoc($q_settings);
+// //settings
+// $q_setting = mysqli_query($conn, "SELECT * FROM settings LIMIT 1");
+// $setting = mysqli_fetch_assoc($q_setting);
 
-//Resume
-$q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY year_end DESC, id DESC");
-$resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
+// //resume
+// $q_resume = mysqli_query($conn, "SELECT * FROM resume ORDER BY year_end DESC,id DESC");
+// $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
+
+// //service
+// $q_service = mysqli_query($conn, "SELECT * FROM service ORDER BY id DESC LIMIT 6");
+// $service = mysqli_fetch_all($q_service, MYSQLI_ASSOC);
+
+// //skills
+// $q_skill = mysqli_query($conn, "SELECT * FROM skills ORDER BY percentage DESC LIMIT 10");
+// $skills = mysqli_fetch_all($q_skill, MYSQLI_ASSOC);
+
+// //projects
+// $q_project = mysqli_query($conn, "SELECT * FROM projects ORDER BY id DESC");
+// $projects = mysqli_fetch_all($q_project, MYSQLI_ASSOC);
+
+// //blog_content
+// $q_blog_content = mysqli_query($conn, "SELECT * FROM blog_content ORDER BY date DESC LIMIT 6");
+// $contents = mysqli_fetch_all($q_blog_content, MYSQLI_ASSOC);
+
+// //achievements
+// $q_achievement = mysqli_query($conn, "SELECT * FROM achievements ORDER BY id DESC LIMIT 1");
+// $achievements = mysqli_fetch_assoc($q_achievement);
+
+// //post message save
+// if (isset($_POST['save'])) {
+//     $name = $_POST['name'];
+//     $email = $_POST['email'];
+//     $subject = $_POST['subject'];
+//     $message = $_POST['message'];
+
+//     //pseudo code to users table, tell the table users based from user input
+//     $query_input = mysqli_query($conn, "INSERT INTO
+//         contacts
+//         (name, email, subject, message)
+//         VALUE
+//         ('$name', '$email', '$subject', '$message')");
+//     header("location:index.php#contact-section");
+// }
+
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,15 +68,11 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
 
     <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.css">
-
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
-
     <link rel="stylesheet" href="css/aos.css">
-
     <link rel="stylesheet" href="css/ionicons.min.css">
-
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
@@ -51,8 +83,9 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.php"><img src="images/logo_white.png" alt="Logo" height="60"></a>
-            <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="index.php"><img src="images/logo_white.png" width=100 alt="logo"></a>
+            <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse"
+                data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
 
@@ -61,7 +94,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <li class="nav-item"><a href="#home-section" class="nav-link"><span>Home</span></a></li>
                     <li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
                     <li class="nav-item"><a href="#resume-section" class="nav-link"><span>Resume</span></a></li>
-                    <li class="nav-item"><a href="#services-section" class="nav-link"><span>Services</span></a></li>
+                    <li class="nav-item"><a href="#service-section" class="nav-link"><span>Services</span></a></li>
                     <li class="nav-item"><a href="#skills-section" class="nav-link"><span>Skills</span></a></li>
                     <li class="nav-item"><a href="#projects-section" class="nav-link"><span>Projects</span></a></li>
                     <li class="nav-item"><a href="#blog-section" class="nav-link"><span>My Blog</span></a></li>
@@ -70,59 +103,63 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
             </div>
         </div>
     </nav>
-
-    <!-- Section Slider -->
-
     <section id="home-section" class="hero">
         <div class="home-slider  owl-carousel">
-
-            <?php foreach ($sliders as $index => $value) {
+            <?php foreach ($slider as $index => $value): ?>
+                <?php $subtitle = explode(" ", $value['subtitle']);
                 $title = explode(" ", $value['title']);
-            ?>
+                ?>
 
                 <div class="slider-item ">
                     <div class="overlay"></div>
                     <div class="container">
-                        <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-                            <div class="one-third js-fullheight order-md-last hero-image" style="background-image:url(admin/assets/img/<?php echo ($sliders) ? $value['image'] : '' ?>);  height: 800px;">
+                        <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end"
+                            data-scrollax-parent="true">
+                            <div class="one-third js-fullheight order-md-last img"
+                                style="background-image:url('admin/assets/img/<?php echo $sliders[$index]['image']; ?>');">
                                 <div class="overlay"></div>
                             </div>
-                            <div class="one-forth d-flex  align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                            <div class="one-forth d-flex  align-items-center ftco-animate"
+                                data-scrollax=" properties: { translateY: '70%' }">
                                 <div class="text">
-                                    <span class="subheading"><?php echo ($sliders) ? $value['subtitle'] : '' ?></span>
+                                    <span class="subheading"><?= $value['subtitle'] ?></span>
 
-                                    <h1 class="mb-4 mt-3"><?= $title[0] ? $title[0] : '' ?>
-                                        <span>
-                                            <?php array_shift($title);
-                                            echo implode(" ", $title)
-                                            ?></span>
+                                    <h1 class="mb-4 mt-3"><?= $title['0'] ?>
+                                        <span><?php array_shift($title);
+                                                echo implode(" ", $title);
+                                                ?></span>
                                     </h1>
 
-                                    <h2 class="mb-4"><?php echo ($sliders) ? $value['description'] : '' ?></h2>
+                                    <h2 class="mb-4"><span><?= $value['description'] ?></span>
+                                    </h2>
 
                                     <p>
-                                        <a href="<?php echo ($sliders) ? $value['button1_link'] : '' ?>" class="btn btn-primary py-3 px-4"><?php echo ($sliders) ? $value['button1_text'] : '' ?></a>
-                                        <a href="<?php echo ($sliders) ? $value['button2_link'] : '' ?>" class="btn btn-white btn-outline-white py-3 px-4"><?php echo ($sliders) ? $value['button2_text'] : '' ?></a>
+                                        <a href="<?= $value['button1_link']; ?>" class="btn btn-primary py-3 px-4">
+                                            <?= $value['button1_text']; ?>
+                                        </a>
+                                        <a href="<?= $value['button2_link']; ?>"
+                                            class="btn btn-white btn-outline-white py-3 px-4">
+                                            <?= $value['button2_text']; ?>
+                                        </a>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php
-            }
-            ?>
+            <?php endforeach; ?>
+
         </div>
     </section>
 
-    <!-- Section About Me -->
     <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
         <div class="container">
             <div class="row d-flex">
                 <div class="col-md-6 col-lg-5 d-flex">
                     <div class="img-about img d-flex align-items-stretch">
                         <div class="overlay"></div>
-                        <div class="img d-flex align-self-stretch align-items-center" style="background-image:url(image_bank/slide_3.jpg);">
+                        <div class="img d-flex align-self-stretch align-items-center"
+                            style="background-image:url(images/bg_1.png);">
                         </div>
                     </div>
                 </div>
@@ -131,11 +168,20 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                         <div class="col-md-12 heading-section ftco-animate">
                             <h1 class="big">About</h1>
                             <h2 class="mb-4">About Me</h2>
-                            <p><?php echo $settings ? ($settings)['description'] : ''; ?></p>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary
+                                regelialia.</p>
                             <ul class="about-info mt-4 px-md-0 px-2">
-                                <li class="d-flex"><span>Address:</span> <span><?php echo ($settings)['address'] ?></span></li>
-                                <li class="d-flex"><span>Phone:</span> <span><?php echo ($settings)['phone'] ?></span></li>
-                                <li class="d-flex"><span>Email:</span> <span><?php echo ($settings)['email'] ?></span></li>
+                                <li class="d-flex"><span>Name:</span> <span>Clark Thompson</span></li>
+                                <li class="d-flex"><span>Date of birth:</span>
+                                    <span>16 Februari 1996</span>
+                                </li>
+
+                                <li class="d-flex"><span>Address:</span> <span><?php echo $about['address'] ?></span>
+                                </li>
+                                <li class="d-flex"><span>Email:</span> <span><?php echo $about['website_name'] ?></span>
+                                </li>
+                                <li class="d-flex"><span>Email:</span> <span><?php echo $about['email'] ?></span></li>
+                                <li class="d-flex"><span>Phone: </span> <span><?php echo $about['phone'] ?></span></li>
                             </ul>
                         </div>
                     </div>
@@ -153,59 +199,51 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
         </div>
     </section>
 
-    <!-- Section Resume -->
     <section class="ftco-section ftco-no-pb" id="resume-section">
         <div class="container">
             <div class="row justify-content-center pb-5">
                 <div class="col-md-10 heading-section text-center ftco-animate">
-                    <h1 class="big big-2">Experience</h1>
-                    <h2 class="mb-4">Work Experience</h2>
-                    <p>
-                        <?php echo ($settings)['description'] ?>
-                    </p>
+                    <h1 class="big big-2">Resume</h1>
+                    <h2 class="mb-4">Resume</h2>
+                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.
+                        It
+                        is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
                 </div>
             </div>
             <div class="row">
-                <?php foreach ($resume as $index => $value) { ?>
+                <?php foreach ($resume as $value) { ?>
                     <div class="col-md-6">
                         <div class="resume-wrap ftco-animate">
                             <span class="date">
-                                <?php echo $value['year_start'] . " - " . $value['year_end'] ?>
+                                <?= $value['year_start']; ?> - <?= $value['year_end']; ?>
                             </span>
-
-                            <h2><?php echo $value['title'] ?></h2>
-
-                            <span class="position">
-                                <?php echo $value['subtitle'] ?>
-                            </span>
-
-                            <p class="mt-4">
-                                <?php echo $value['description'] ?>
-                            </p>
+                            <h2><?= $value['title']; ?></h2>
+                            <span class="position"><?= $value['subtitle']; ?></span>
+                            <p class="mt-4"><?= $value['description']; ?></p>
                         </div>
                     </div>
                 <?php } ?>
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-md-6 text-center ftco-animate">
-                    <p><a href="https://docs.google.com/document/d/1fRTA8NilCe-vAWmyQLZRtjEQkGVKQtJS/edit?rtpof=true&sd=true" class="btn btn-primary py-4 px-5">Download CV</a></p>
+                    <p><a href="#" class="btn btn-primary py-4 px-5">Download CV</a></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="ftco-section" id="services-section">
+    <section class="ftco-section" id="service-section">
         <div class="container">
             <div class="row justify-content-center py-5 mt-5">
                 <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big big-2">Services</h1>
-                    <h2 class="mb-4">Services</h2>
+                    <h1 class="big big-2">Service</h1>
+                    <h2 class="mb-4">Service</h2>
                     <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-analysis"></i>
                         </span>
@@ -215,7 +253,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-flasks"></i>
                         </span>
@@ -225,7 +263,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-ideas"></i>
                         </span>
@@ -236,7 +274,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                 </div>
 
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-analysis"></i>
                         </span>
@@ -246,7 +284,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     </a>
                 </div>
                 <div class="col-md-4 text-center d-flex ftco-animate">
-                    <a href="#" class="services-1">
+                    <a href="#" class="service-1">
                         <span class="icon">
                             <i class="flaticon-flasks"></i>
                         </span>
@@ -282,10 +320,12 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
             <div class="row">
                 <div class="col-md-6 animate-box">
                     <div class="progress-wrap ftco-animate">
-                        <h3>Photoshop</h3>
+                        <h3>Photoshop
+                            <!-- nanti di sini tambahin yang buat progress bar dan filter specialchars ya! -->
+                        </h3>
                         <div class="progress">
-                            <div class="progress-bar color-1" role="progressbar" aria-valuenow="90"
-                                aria-valuemin="0" aria-valuemax="100" style="width:90%">
+                            <div class="progress-bar color-1" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                                aria-valuemax="100" style="width:90%">
                                 <span>90%</span>
                             </div>
                         </div>
@@ -295,8 +335,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="progress-wrap ftco-animate">
                         <h3>jQuery</h3>
                         <div class="progress">
-                            <div class="progress-bar color-2" role="progressbar" aria-valuenow="85"
-                                aria-valuemin="0" aria-valuemax="100" style="width:85%">
+                            <div class="progress-bar color-2" role="progressbar" aria-valuenow="85" aria-valuemin="0"
+                                aria-valuemax="100" style="width:85%">
                                 <span>85%</span>
                             </div>
                         </div>
@@ -306,8 +346,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="progress-wrap ftco-animate">
                         <h3>HTML5</h3>
                         <div class="progress">
-                            <div class="progress-bar color-3" role="progressbar" aria-valuenow="95"
-                                aria-valuemin="0" aria-valuemax="100" style="width:95%">
+                            <div class="progress-bar color-3" role="progressbar" aria-valuenow="95" aria-valuemin="0"
+                                aria-valuemax="100" style="width:95%">
                                 <span>95%</span>
                             </div>
                         </div>
@@ -317,8 +357,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="progress-wrap ftco-animate">
                         <h3>CSS3</h3>
                         <div class="progress">
-                            <div class="progress-bar color-4" role="progressbar" aria-valuenow="90"
-                                aria-valuemin="0" aria-valuemax="100" style="width:90%">
+                            <div class="progress-bar color-4" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                                aria-valuemax="100" style="width:90%">
                                 <span>90%</span>
                             </div>
                         </div>
@@ -328,8 +368,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="progress-wrap ftco-animate">
                         <h3>WordPress</h3>
                         <div class="progress">
-                            <div class="progress-bar color-5" role="progressbar" aria-valuenow="70"
-                                aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                            <div class="progress-bar color-5" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                aria-valuemax="100" style="width:70%">
                                 <span>70%</span>
                             </div>
                         </div>
@@ -339,8 +379,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     <div class="progress-wrap ftco-animate">
                         <h3>SEO</h3>
                         <div class="progress">
-                            <div class="progress-bar color-6" role="progressbar" aria-valuenow="80"
-                                aria-valuemin="0" aria-valuemax="100" style="width:80%">
+                            <div class="progress-bar color-6" role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                aria-valuemax="100" style="width:80%">
                                 <span>80%</span>
                             </div>
                         </div>
@@ -362,7 +402,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-4.jpg);">
+                    <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                        style="background-image: url(images/project-4.jpg);">
                         <div class="overlay"></div>
                         <div class="text text-center p-4">
                             <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -371,7 +412,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-5.jpg);">
+                    <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                        style="background-image: url(images/project-5.jpg);">
                         <div class="overlay"></div>
                         <div class="text text-center p-4">
                             <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -381,7 +423,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                 </div>
 
                 <div class="col-md-8">
-                    <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-1.jpg);">
+                    <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                        style="background-image: url(images/project-1.jpg);">
                         <div class="overlay"></div>
                         <div class="text text-center p-4">
                             <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -389,7 +432,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                         </div>
                     </div>
 
-                    <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-6.jpg);">
+                    <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                        style="background-image: url(images/project-6.jpg);">
                         <div class="overlay"></div>
                         <div class="text text-center p-4">
                             <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -400,7 +444,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-2.jpg);">
+                            <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                                style="background-image: url(images/project-2.jpg);">
                                 <div class="overlay"></div>
                                 <div class="text text-center p-4">
                                     <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -409,7 +454,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/project-3.jpg);">
+                            <div class="project img ftco-animate d-flex justify-content-center align-items-center"
+                                style="background-image: url(images/project-3.jpg);">
                                 <div class="overlay"></div>
                                 <div class="text text-center p-4">
                                     <h3><a href="#">Branding &amp; Illustration Design</a></h3>
@@ -446,8 +492,11 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                                     <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>
                                 </p>
                             </div>
-                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business Growth</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business
+                                    Growth</a>
+                            </h3>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary
+                                regelialia.</p>
                         </div>
                     </div>
                 </div>
@@ -463,8 +512,11 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                                     <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>
                                 </p>
                             </div>
-                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business Growth</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business
+                                    Growth</a>
+                            </h3>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary
+                                regelialia.</p>
                         </div>
                     </div>
                 </div>
@@ -480,8 +532,11 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                                     <a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a>
                                 </p>
                             </div>
-                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business Growth</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                            <h3 class="heading"><a href="single.html">Why Lead Generation is Key for Business
+                                    Growth</a>
+                            </h3>
+                            <p>A small river named Duden flows by their place and supplies it with the necessary
+                                regelialia.</p>
                         </div>
                     </div>
                 </div>
@@ -533,7 +588,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
             <div class="row justify-content-center">
                 <div class="col-md-7 ftco-animate text-center">
                     <h2>I'm <span>Available</span> for freelancing</h2>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.
+                    </p>
                     <p class="mb-0"><a href="#" class="btn btn-primary py-3 px-5">Hire me</a></p>
                 </div>
             </div>
@@ -602,7 +658,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                             <input type="text" class="form-control" placeholder="Subject">
                         </div>
                         <div class="form-group">
-                            <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                            <textarea name="" id="" cols="30" rows="7" class="form-control"
+                                placeholder="Message"></textarea>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
@@ -625,7 +682,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">About</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                            there live the blind texts.</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                             <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                             <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -639,7 +697,7 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                         <ul class="list-unstyled">
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>About</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Services</a></li>
+                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Service</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Projects</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Contact</a></li>
                         </ul>
@@ -651,7 +709,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                         <ul class="list-unstyled">
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Web Design</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Web Development</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Business Strategy</a></li>
+                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Business Strategy</a>
+                            </li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Data Analysis</a></li>
                             <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Graphic Design</a></li>
                         </ul>
@@ -662,9 +721,13 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
                         <div class="block-23 mb-3">
                             <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St.
+                                        Mountain
+                                        View, San Francisco, California, USA</span></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
+                                            210</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span
+                                            class="text">info@yourdomain.com</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -673,11 +736,14 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
             <div class="row">
                 <div class="col-md-12 text-center">
 
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;<script>
                             document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        </script> All rights reserved | This template is made with <i class="icon-heart color-danger"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
                 </div>
             </div>
         </div>
@@ -688,7 +754,8 @@ $resume = mysqli_fetch_all($q_resume, MYSQLI_ASSOC);
     <!-- loader -->
     <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
             <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00" />
         </svg></div>
 
 

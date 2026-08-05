@@ -11,7 +11,7 @@ include "config/koneksi.php";
 
 //pake mysqli_fetch_assoc (query); untuk edit data karena dia cuma nampilin 1 data
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$query = mysqli_query($conn, "SELECT * FROM sliders WHERE id = '$id'");
+$query = mysqli_query($conn, "SELECT * FROM `blog-content` WHERE id = '$id'");
 $row = mysqli_fetch_assoc($query);
 
 
