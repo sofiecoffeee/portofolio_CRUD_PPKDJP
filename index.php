@@ -307,8 +307,8 @@ if (isset($_POST['save'])) {
                         <div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(admin/assets/img//<?php echo ($projects) ? $value['image'] : '' ?>);">
                             <div class="overlay"></div>
                             <div class="text text-center p-4">
-                                <h3><a href="#">Branding &amp; Illustration Design</a></h3>
-                                <span>Web Design</span>
+                                <h3><a href="#"><?php echo ($projects) ? $value['title'] : '' ?></a></h3>
+                                <span><?php echo ($projects) ? $value['job_category'] : '' ?></span>
                             </div>
                         </div>
                     </div>
