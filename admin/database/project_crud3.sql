@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2026 at 10:00 PM
+-- Generation Time: Aug 06, 2026 at 09:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,15 +24,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `blog-content`
+-- Table structure for table `blog_content`
 --
 
-CREATE TABLE `blog-content` (
+CREATE TABLE `blog_content` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `title` varchar(100) NOT NULL,
   `image` varchar(50) NOT NULL,
   `short_description` varchar(255) DEFAULT NULL,
+  `uploader` varchar(50) NOT NULL,
   `url_blog` varchar(100) NOT NULL,
   `comment_count` int(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -40,11 +41,13 @@ CREATE TABLE `blog-content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `blog-content`
+-- Dumping data for table `blog_content`
 --
 
-INSERT INTO `blog-content` (`id`, `date`, `title`, `image`, `short_description`, `url_blog`, `comment_count`, `created_at`, `updated_at`) VALUES
-(1, '2021-05-05', 'Being Woman in Tech Industry: A Journey on Bukalapak Hack-a-Fun 2018', '6a7329b465793_Hack-a-fun-4.jpg', 'I never imagined winning a competition in the field of technology, especially with my conventional economics-management background...', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', 1000, '2026-08-05 07:29:13', '2026-08-05 12:17:15');
+INSERT INTO `blog_content` (`id`, `date`, `title`, `image`, `short_description`, `uploader`, `url_blog`, `comment_count`, `created_at`, `updated_at`) VALUES
+(1, '2021-05-05', 'Being Woman in Tech Industry: A Journey on Bukalapak Hack-a-Fun 2018', '6a74c4c5a27d8_Hack-a-fun.jpg', 'I never imagined winning a competition in the field of technology, especially with my conventional economics-management background...', 'Sofia', 'https://github.com/sofiecoffeee/portofolio_CRUD_PPKDJP', 1000, '2026-08-05 07:29:13', '2026-08-06 17:58:06'),
+(3, '2024-12-17', 'Being Women in Tech Industry Part 2: Discovering Communities.', '6a749e8ee5f48__MG_4095.JPG', 'I started to look for the womens communities to see the STEM perspective without any awkward approach, which is better for deep discussions of women by women. Randomly, @generationgirl Instagram, organized by Yayasan Generasi Maju Berkarya', 'Sofia', 'https://www.linkedin.com/feed/update/urn:li:activity:7257291087902322688/', 100, '2026-08-06 14:47:42', '2026-08-06 17:58:01'),
+(4, '2025-07-06', 'Traveling Alone: A Story of Growth', '6a749f41332ea_1755703133883.jpg', 'Sharing with the biggest english community in Jakarta, Britzone. From a heartbreak, pandemic loneliness to standing as a class conductors, who would have thought?', 'Sofia', 'https://www.linkedin.com/posts/sofiecoffe_sharing-community-britzone-ugcPost-7363952705796526080-CBH', 120, '2026-08-06 14:50:41', '2026-08-06 17:57:53');
 
 -- --------------------------------------------------------
 
@@ -61,6 +64,14 @@ CREATE TABLE `contacts` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `update_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `name`, `email`, `subject`, `message`, `created_at`, `update_at`) VALUES
+(1, 'test', 'sofiecoffe@gmail.com', 'asasd', 'DadAADAdad', '2026-08-06 18:56:52', NULL),
+(2, 'hello', 'sofiecoffe@gmail.com', 'ini test', 'test bsia ga', '2026-08-06 18:59:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -107,7 +118,7 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `title`, `job_category`, `image`, `article_url`, `created_at`, `updated_at`) VALUES
-(6, 'BukaPuasa', 'Web Development', '6a732625ce2cd_BukaPuasa_ Hack-a-Fun 2018 (1).jpg', 'https://www.linkedin.com/posts/sofiecoffe_womanintech-techinnovation-hackathon-share-690753808392798', '2026-08-05 05:22:45', '2026-08-05 12:01:41'),
+(6, 'BukaPuasa', 'Web Development', '6a749706b6b3e_BukaPuasa.jpg', 'https://www.linkedin.com/posts/sofiecoffe_womanintech-techinnovation-hackathon-share-690753808392798', '2026-08-05 05:22:45', '2026-08-06 14:15:34'),
 (7, 'BukaBantuan e-Learning', 'Web Development', '6a732683d0510_csm_inovation.jpeg', 'https://dribbble.com/shots/11099158-BukaBantuan-e-Learning', '2026-08-05 12:03:15', '2026-08-05 12:03:15'),
 (8, 'KAKAO WEBTOON App Gamification', 'Product Growth', '6a7326ffb585d_project_ramalan.png', 'https://webtoon.kakao.com/', '2026-08-05 12:05:19', '2026-08-05 12:05:19'),
 (9, 'UMKM Branding', 'Branding Design', '6a73276a8a6aa_Branding.webp', 'https://dribbble.com/shots/15111404-Promotion-Material-Design', '2026-08-05 12:07:06', '2026-08-05 12:07:06'),
@@ -138,9 +149,9 @@ CREATE TABLE `resume` (
 
 INSERT INTO `resume` (`id`, `year_start`, `year_end`, `title`, `subtitle`, `description`, `submit_cv`, `created_at`, `update_at`) VALUES
 (1, '2020', '2025', 'Product Marketing Operation Lead', 'KAKAO ENTERTAINMENT (KAKAO WEBTOON ID)', 'Plan & set budget monthly webtoon update seasons/end seasons events, new Release webtoon promotions, webtoon to-drama/movie promotion, and thematic theme campaign promotions, Align the communication between the Indonesia Operation Team (Designers, Social Media Specialist, Performance Marketing) and the Korean Business Team for running day-to-day business operations', '', '2026-08-01 07:59:09', '2026-08-03 07:33:09'),
-(3, '2019', '2019', 'Internal Communications Officer', 'tiket.com', 'Facilitate to deliver the information or event from various HR divisions ', '', '2026-08-03 07:36:41', NULL),
-(4, '2018', '2019', 'Customer Service: Outreach Service', 'Bukalapak', 'Facilitate the internal BukaBantuan’s development offline events (Townhall, Developing Trainings, Fun Music/Movie Nights, Hari Konsumen Nasional Projects), and Internal customer service divisions.', '', '2026-08-03 07:41:31', NULL),
-(5, '2025', '2026', 'Marketing Specialist', 'BiliBili (Bstation Indonesia', 'Managing digital channel promotion (social media & community) for Original Video (OTT) divisions. Specialized to Japanese & Chinese Animation.', '', '2026-08-05 11:35:24', '2026-08-05 18:24:22');
+(3, '2019', '2020', 'Internal Communications Officer', 'tiket.com', 'Managed all internal announcements, events, and quarterly plans for all employees through various internal communication channels. Managed the career site in collaboration with the Talent Acquisition and Employer Branding teams.', '', '2026-08-03 07:36:41', '2026-08-06 14:54:56'),
+(4, '2018', '2019', 'Customer Service: Outreach Service', 'Bukalapak', 'Managed Bukalapak Customer Service internal Instagram account (@csmheroes), creating engagement-driven content that strengthened employee participation and internal branding initiatives. Coordinated employee engagement events, including town halls, training programs, and company activities, while supporting marketing campaigns and brand promotions across TV and social media.', '', '2026-08-03 07:41:31', '2026-08-06 14:58:37'),
+(5, '2025', '2026', 'Marketing Specialist', 'BiliBili (Bstation Indonesia', 'Developed and executed localized social media strategies for Facebook and Instagram to increase brand awareness, audience engagement, and follower growth in Indonesia. Planned integrated marketing campaigns, collaborated with business partners on co-branded activations, and analyzed campaign performance to optimize content strategies based on data insights.', '', '2026-08-05 11:35:24', '2026-08-06 14:57:10');
 
 -- --------------------------------------------------------
 
@@ -162,12 +173,12 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`id`, `service_name`, `icon`, `is_active`, `created_at`, `update_at`) VALUES
-(1, 'Digital Marketing', 'fa-envelope-open', 1, '2026-08-05 01:14:06', NULL),
-(2, 'Growth Marketing', 'fa-arrow-up-right-dots', 1, '2026-08-05 11:38:29', NULL),
-(3, 'Social Media Management', 'fa-solid fa-calendar', 1, '2026-08-05 11:41:41', NULL),
-(4, 'Product Management', 'fa-solid fa-list-check', 1, '2026-08-05 11:43:37', NULL),
-(5, 'Performance Marketing', 'fa-solid fa-chart-line', 1, '2026-08-05 11:44:22', NULL),
-(6, 'Research & Data Analysis', 'fa-solid fa-chart-pie', 1, '2026-08-05 11:45:43', NULL);
+(1, 'Research & Data Analysis', 'flaticon-flasks', 1, '2026-08-05 01:14:06', '2026-08-06 16:27:18'),
+(2, 'Campaign Planner', 'flaticon-ideas', 1, '2026-08-05 11:38:29', '2026-08-06 16:34:36'),
+(3, 'Growth Marketing', 'flaticon-analysis', 1, '2026-08-05 11:41:41', '2026-08-06 16:32:33'),
+(4, 'Product Management', 'flaticon-ux-design', 1, '2026-08-05 11:43:37', '2026-08-06 16:13:16'),
+(5, 'Digital Marketing', 'flaticon-idea', 1, '2026-08-05 11:44:22', '2026-08-06 16:42:44'),
+(6, 'Social Media Management', 'flaticon-web-design', 1, '2026-08-05 11:45:43', '2026-08-06 16:02:26');
 
 -- --------------------------------------------------------
 
@@ -192,7 +203,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `website_name`, `email`, `phone`, `address`, `description`, `ig`, `created_at`, `update_at`) VALUES
-(1, 'www.medium.com/@sofiecoffe', 'sofiecoffe@gmail.com', '081912189318', 'Jakarta, Indonesia', 'Passionate about creating impactful digital experiences through creativity, innovation, and continuous learning.', '@sofiecoffe', '2026-07-30 03:07:43', '2026-08-05 17:20:01');
+(1, 'www.sofiecoffe.com', 'sofiecoffe@gmail.com', '081912189318', 'Jakarta, Indonesia', 'Passionate about creating impactful digital experiences through creativity, innovation, and continuous learning.', '@sofiecoffe', '2026-07-30 03:07:43', '2026-08-06 14:50:59');
 
 -- --------------------------------------------------------
 
@@ -251,9 +262,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 --
 
 --
--- Indexes for table `blog-content`
+-- Indexes for table `blog_content`
 --
-ALTER TABLE `blog-content`
+ALTER TABLE `blog_content`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -310,16 +321,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `blog-content`
+-- AUTO_INCREMENT for table `blog_content`
 --
-ALTER TABLE `blog-content`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `blog_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `my_skills`
