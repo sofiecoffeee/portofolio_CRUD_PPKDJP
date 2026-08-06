@@ -396,10 +396,10 @@ h1, h2, h3, h4, h5,
 	}
 	&.home-slider {
 		position: relative;
-		height: 200px;
+		height: 750px;
 		z-index: 0;
 		.slider-item {
-			background-size: contain;
+			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center center;
 			height: 750px;

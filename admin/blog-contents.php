@@ -5,14 +5,14 @@ session_regenerate_id();
 include "config/koneksi.php";
 // show all data from users table
 // from biggest to smallest
-$query = mysqli_query($conn, "SELECT * FROM `blog-content` ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT * FROM `blog_content` ORDER BY id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 //jika parameter/params delete ada
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
 
-    $img = mysqli_query($conn, "SELECT image FROM `blog-content` WHERE id='$delete'");
+    $img = mysqli_query($conn, "SELECT image FROM blog_content WHERE id='$delete'");
     $rowImg = mysqli_fetch_assoc($img); {
         $old_picture_path = "assets/img/" . $rowImg['image'];
         if (file_exists($old_picture_path)) {
@@ -20,7 +20,7 @@ if (isset($_GET['delete'])) {
         }
     }
 
-    $delete = mysqli_query($conn, "DELETE FROM `blog-content` WHERE id='$delete'");
+    $delete = mysqli_query($conn, "DELETE FROM blog_content WHERE id='$delete'");
     header("location:blog-contents.php?hapus=berhasil");
 }
 
@@ -105,6 +105,7 @@ if (isset($_GET['delete'])) {
                                                 <th>Publish Date</th>
                                                 <th>Image</th>
                                                 <th>Short Description</th>
+                                                <th>Uploader</th>
                                                 <!-- <th>Article URL</th> -->
                                                 <th>Comment Count</th>
                                                 <th>Action</th>
@@ -119,8 +120,8 @@ if (isset($_GET['delete'])) {
                                                 <td><?php echo $row['title'] ?></td>
                                                 <td><?php echo $row['date'] ?></td>
                                                 <td> <img src="assets/img/<?php echo $row['image'] ?>" width="50" alt="">
-                                                </td>
                                                 <td><?php echo $row['short_description'] ?></td>
+                                                <td><?php echo $row['uploader'] ?></td>
                                                 <!-- <td><?php echo $row['url_blog'] ?></td> -->
                                                 <td><?php echo $row['comment_count'] ?></td>
 

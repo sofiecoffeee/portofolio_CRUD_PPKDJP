@@ -11,7 +11,7 @@ include "config/koneksi.php";
 
 //pake mysqli_fetch_assoc (query); untuk edit data karena dia cuma nampilin 1 data
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$query = mysqli_query($conn, "SELECT * FROM `blog-content` WHERE id = '$id'");
+$query = mysqli_query($conn, "SELECT * FROM blog_content WHERE id = '$id'");
 $row = mysqli_fetch_assoc($query);
 
 
@@ -21,6 +21,7 @@ if (isset($_POST['save'])) {
     $date = $_POST['date'];
     $image = $_FILES['image'];
     $short_description = $_POST['short_description'];
+    $uploader = $_POST['uploader'];
     $url_blog = $_POST['url_blog'];
     $comment_count = $_POST['comment_count'];
     $id = $row['id'] ?? '';
@@ -50,14 +51,14 @@ if (isset($_POST['save'])) {
                 }
             }
 
-            $update = mysqli_query($conn, "UPDATE `blog-content` SET 
-        title='$title', date='$date', image='$filename', short_description='$short_description', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
+            $update = mysqli_query($conn, "UPDATE blog_content SET 
+        title='$title', date='$date', image='$filename', short_description='$short_description', uploader='$uploader', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
             header("location:blog-contents.php?update=berhasil");
         } else {
-            $insert = mysqli_query($conn, "INSERT INTO `blog-content`
+            $insert = mysqli_query($conn, "INSERT INTO blog_content
         (title, date, image, short_description, url_blog, comment_count) 
         VALUES 
-        ('$title','$date','$filename','$short_description', '$url_blog', '$comment_count')");
+        ('$title','$date','$filename','$short_description', '$uploader', '$url_blog', '$comment_count')");
             header("location:blog-contents.php?tambah=berhasil");
         }
 
@@ -65,9 +66,9 @@ if (isset($_POST['save'])) {
         //kalo mau update tanpa harus mengubah gambar
     } else {
         if ($id) {
-            $update = mysqli_query($conn, "UPDATE `blog-content` SET 
-        title='$title', date='$date', short_description='$short_description', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
-            header("location:create-blog.php?update-berhasil");
+            $update = mysqli_query($conn, "UPDATE blog_content SET 
+        title='$title', date='$date', short_description='$short_description', uploader='$uploader', url_blog='$url_blog', comment_count='$comment_count'  WHERE id='$id'");
+            header("location:blog-contents.php?update-berhasil");
         }
     }
 }
@@ -169,7 +170,7 @@ if (isset($_POST['save'])) {
                                         <div class="mb-3">
                                             <label for="" class="form-tabel">Count</label>
                                             <input type="number" class="form-control" name="comment_count"
-                                                placeholder="Enter button 2 text" required
+                                                placeholder=" " required
                                                 value="<?php echo ($id) ? $row['comment_count'] : '' ?>">
                                         </div>
 
@@ -179,6 +180,14 @@ if (isset($_POST['save'])) {
                                             <textarea name="short_description" id=""
                                                 class="form-control"><?php echo isset($id) && $id ? $row['short_description'] : '' ?></textarea>
                                         </div>
+
+                                        <div class="mb-3">
+                                            <label for="" class="form-tabel">Uploader</label>
+                                            <input type="text" class="form-control" name="uploader"
+                                                placeholder="Enter Name" required
+                                                value="<?php echo ($id) ? $row['uploader'] : '' ?>">
+                                        </div>
+
 
                                         <!-- 
                                         kalo mau pake isset, berarti logikanya ?php echo isset($id) && $id ? $row['description'] : '' ?, artinya 
