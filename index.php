@@ -506,10 +506,9 @@ if (isset($_POST['save'])) {
                         <div class="block-23 mb-3">
                             <ul>
                                 <li><span class="icon icon-map-marker"></span><span class="text"><?php echo ($settings)['address'] ?></span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">
-                                    6281456277</span></a></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text"><?php echo ($settings)['phone'] ?></span></a></li>
                                 <li><a href="#"><span class="icon icon-envelope"></span><span
-                                            class="text">info@yourdomain.com</span></a></li>
+                                            class="text"><?php echo ($settings)['email'] ?></span></a></li>
                             </ul>
                         </div>
                     </div>
